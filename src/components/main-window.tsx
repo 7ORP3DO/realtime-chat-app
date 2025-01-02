@@ -24,12 +24,16 @@ const MainWindow = (props: Props) => {
     const { messages, sendMessage } = useChat(user);
 
     return (
-        <div className="w-full border-r h-dvh overflow-hidden flex flex-col relative bg-muted/60">
+        <div className="w-full border-r h-dvh overflow-hidden flex flex-col relative bg-muted/35">
             <div className="px-4 py-1 border-b border-border bg-card shadow-md flex items-center justify-between h-12">
-                <p>
-                    <User />
+                <p className="border py-0.5 px-2 rounded-md  border-green-500 text-green-400 bg-gradient-to-b from-green-500/20 to-green-500/30 font-[Electrolize] font-semibold">
+                    <span className="flex items-center gap-1">
+                        9 <User className="size-4" />
+                    </span>
                 </p>
-                <h2 className="text-lg font-semibold text-center">Chat World</h2>
+                <h2 className="text-xl font-semibold text-center">
+                    <span className="text-gradient">Chat World</span>
+                </h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Avatar className="size-8 cursor-pointer border">

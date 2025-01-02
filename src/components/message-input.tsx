@@ -24,9 +24,10 @@ const MessageInput = ({ onSubmit }: Props) => {
 
             <form onSubmit={handleSubmit} className="flex gap-2  max-w-screen-md mx-auto group">
                 <Textarea
+                rows={1}
                     name="message"
                     placeholder="Write your message here..."
-                    className="min-h-[50px] bg-background"
+                    className="md:min-h-14 bg-background"
                     required
                     minLength={2}
                 />

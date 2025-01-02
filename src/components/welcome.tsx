@@ -21,16 +21,18 @@ const Welcome = ({ onSubmit, isLoading }: Props) => {
     };
 
     return (
-        <div className="min-h-screen relative bg-black">
+        <div className="min-h-dvh relative">
             <AnimatedGridPattern
-                numSquares={50}
-                maxOpacity={0.1}
+                numSquares={70}
+                width={35}
+                height={35}
+                maxOpacity={0.2}
                 duration={3}
                 repeatDelay={1}
-                className={'[mask-image:linear-gradient(to_top,#fffc,transparent)]'}
+                className={'[mask-image:linear-gradient(to_top,#fff9,transparent)]'}
             />
-            <div className="max-w-screen-xl mx-auto px-4 py-8 min-h-screen flex items-center justify-center">
-                <div className='-translate-y-8'>
+            <div className="max-w-screen-xl mx-auto px-4 py-8 min-h-dvh flex items-center justify-center">
+                <div className='-translate-y-10'>
                     <div
                         className={
                             'group relative z-10 w-fit mx-auto rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800'

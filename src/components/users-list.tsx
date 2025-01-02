@@ -34,7 +34,7 @@ const UsersList = ({ setUsersOpen }: Props) => {
                         <div>
                             <p
                                 className={cn(
-                                    'size-2.5 mx-auto rounded-full',
+                                    'size-2.5 mx-auto rounded-full ',
                                     user.isOnline ? 'bg-green-500' : 'bg-red-500'
                                 )}
                             ></p>
