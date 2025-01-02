@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { onValue, query, ref, limitToLast, orderByChild } from 'firebase/database';
 import { User, UserStatus } from '../types';
 import { rtdb } from '../lib/firebase';
+import { reverse } from 'lodash';
 
 const useOnlineUsers = () => {
     const [users, setUsers] = useState<UserStatus[]>([]);
@@ -20,9 +21,7 @@ const useOnlineUsers = () => {
                 });
             });
 
-            // Sort users by `lastOnline` descending (Firebase Realtime Database `limitToLast` provides ascending order)
-            // usersData.sort((a, b) => b.lastOnline - a.lastOnline);
-            setUsers(usersData);
+            setUsers(reverse(usersData));
         });
 
         // Clean up the listener

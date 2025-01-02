@@ -5,7 +5,7 @@ type Props = {};
 
 const Dashboard = (props: Props) => {
     return (
-        <div className="grid grid-cols-[20rem_1fr]">
+        <div className="grid md:grid-cols-[20rem_1fr]">
             <UsersList />
             <MainWindow />
         </div>

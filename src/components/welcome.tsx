@@ -43,11 +43,11 @@ const Welcome = ({ onSubmit, isLoading }: Props) => {
                         </AnimatedShinyText>
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl mt-6 leading-[1.1] font-semibold text-center">
+                    <h1 className="text-3xl md:text-5xl mt-6 leading-[1.1] font-semibold text-center">
                         {/* The simplest way to <br /> <span className="text-gradient"> connect with the world</span>! */}
                         Welcome to <span className="text-gradient">ChatWorld</span>
                     </h1>
-                    <p className="text-muted-foreground mt-4 max-w-screen-sm mx-auto text-center text-lg md:text-xl">
+                    <p className="text-muted-foreground mt-4 max-w-screen-sm mx-auto text-center md:text-xl">
                         Experience a simple, seamless way to chat. Just enter your name and join the global community.
                         No signup, no hassle.
                     </p>
@@ -58,7 +58,7 @@ const Welcome = ({ onSubmit, isLoading }: Props) => {
                         </div>
                     ) : (
                         <ShineBorder
-                            className="mt-24 backdrop-blur bg-muted/40 relative w-full max-w-xl mx-auto"
+                            className="mt-14 md:mt-24 backdrop-blur bg-muted/40 relative w-full max-w-xl mx-auto"
                             color={['#fb923c', '#ec4899', '#9333ea']}
                             borderWidth={2}
                             borderRadius={24}

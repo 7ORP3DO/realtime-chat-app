@@ -9,7 +9,7 @@ const UsersList = (props: Props) => {
     const { users } = useOnlineUsers();
 
     return (
-        <div className="w-full border-r h-screen overflow-y-auto bg-card">
+        <div className="max-md:hidden w-full border-r h-screen overflow-y-auto bg-card">
             <div className="p-4 py-3 border-b border-border">
                 <h2 className="text-lg font-semibold text-primary">Online Users</h2>
             </div>
