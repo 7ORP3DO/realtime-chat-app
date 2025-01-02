@@ -30,7 +30,7 @@ const Welcome = ({ onSubmit, isLoading }: Props) => {
                 className={'[mask-image:linear-gradient(to_top,#fffc,transparent)]'}
             />
             <div className="max-w-screen-xl mx-auto px-4 py-8 min-h-screen flex items-center justify-center">
-                <div>
+                <div className='-translate-y-8'>
                     <div
                         className={
                             'group relative z-10 w-fit mx-auto rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800'

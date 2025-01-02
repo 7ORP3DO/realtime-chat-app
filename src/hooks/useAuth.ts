@@ -1,33 +1,24 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import {
-    collection,
-    doc,
-    FieldValue,
-    getDocs,
-    query,
-    serverTimestamp,
-    setDoc,
-    updateDoc,
-    where,
-} from 'firebase/firestore';
+import { collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
 import { User } from '../types';
 import { db } from '../lib/firebase';
-import firebase from 'firebase/compat/app';
+
+const getUserAgent = () => encodeURIComponent(navigator.userAgent);
 
 const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const savedUserId = Cookies.get('userId');
         const savedName = Cookies.get('userName');
-        if (savedUserId && savedName) checkExistingUser(savedUserId, savedName);
+        if (savedUserId && savedName) checkExistingUser(savedName);
+        else setIsLoading(false);
     }, []);
 
-    const getUserAgent = () => window.navigator.userAgent;
 
-    const checkExistingUser = async (savedUserId: string, name: string) => {
+    const checkExistingUser = async (name: string) => {
         setIsLoading(true);
         try {
             const userAgent = getUserAgent();
@@ -39,7 +30,7 @@ const useAuth = () => {
                 const existingUser = userSnap.docs[0].data() as User;
                 await updateDoc(doc(db, 'users', existingUser.id), {
                     isOnline: true,
-                    lastOnline: Date.now(),
+                    lastOnline: serverTimestamp(),
                 });
                 setUser(existingUser);
                 return existingUser;
@@ -58,7 +49,7 @@ const useAuth = () => {
         try {
             const userAgent = getUserAgent();
 
-            const existingUser = await checkExistingUser('', name);
+            const existingUser = await checkExistingUser(name);
             if (existingUser) {
                 Cookies.set('userId', existingUser.id, { expires: 7 });
                 Cookies.set('userName', name, { expires: 7 });
@@ -70,7 +61,7 @@ const useAuth = () => {
                 id: userId,
                 name,
                 isOnline: true,
-                lastOnline: Date.now(),
+                lastOnline: serverTimestamp(),
                 userAgent,
                 isTyping: false,
                 createdAt: serverTimestamp(),
@@ -84,7 +75,7 @@ const useAuth = () => {
             window.addEventListener('beforeunload', () => {
                 updateDoc(doc(db, 'users', userId), {
                     isOnline: false,
-                    lastOnline: Date.now(),
+                    lastOnline: serverTimestamp(),
                     isTyping: false,
                 });
             });

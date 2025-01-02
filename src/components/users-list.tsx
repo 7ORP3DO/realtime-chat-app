@@ -1,3 +1,4 @@
+import moment from 'moment';
 import useOnlineUsers from '../hooks/useOnlineUsers';
 import { cn } from '../lib/utils';
 import { Card, CardDescription, CardTitle } from './ui/card';
@@ -19,17 +20,10 @@ const UsersList = (props: Props) => {
                         className="rounded-md  border bg-muted/40 border-muted-foreground/15  px-3 py-1.5 grid grid-cols-[1fr_1rem] items-center"
                     >
                         <div>
-                            <h4 className="capitalize text-sm">{user.name}</h4>
-                            <p className="text-[10px] mt-0.5 text-muted-foreground">
+                            <h4 className="capitalize">{user.name}</h4>
+                            <p className="text-xs mt-0.5 text-muted-foreground">
                                 <b>Last Seen: </b>
-                                {new Date(user.lastOnline).toLocaleString(undefined, {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric',
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true,
-                                })}
+                                {user.isOnline ? 'online' : moment(user.lastOnline?.toDate()).fromNow()}
                             </p>
                         </div>
                         <div>

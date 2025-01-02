@@ -1,12 +1,14 @@
+type FirebaseTimestamp = firebase.firestore.Timestamp;
+
 export interface User {
     id: string;
     name: string;
     isOnline: boolean;
-    lastOnline: number;
+    lastOnline: FirebaseTimestamp;
     userAgent: string;
     isTyping?: boolean;
     typingTimeout?: NodeJS.Timeout;
-    createdAt?: object;
+    createdAt?: FirebaseTimestamp;
 }
 
 export interface Message {
