@@ -15,7 +15,9 @@ import {
 import moment from 'moment';
 import { CodeSquare, Info, LogOut, Settings, User } from 'lucide-react';
 
-type Props = {};
+type Props = {
+    setUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const MainWindow = (props: Props) => {
     const { user } = useAuth();
@@ -23,7 +25,7 @@ const MainWindow = (props: Props) => {
 
     return (
         <div className="w-full border-r h-dvh overflow-hidden flex flex-col relative bg-muted/60">
-            <div className="p-4 py-2 border-b border-border bg-card shadow-md flex items-center justify-between">
+            <div className="px-4 py-1 border-b border-border bg-card shadow-md flex items-center justify-between h-12">
                 <p>
                     <User />
                 </p>

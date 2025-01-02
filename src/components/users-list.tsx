@@ -3,15 +3,20 @@ import useOnlineUsers from '../hooks/useOnlineUsers';
 import { cn } from '../lib/utils';
 import { Card, CardDescription, CardTitle } from './ui/card';
 
-type Props = {};
+type Props = {
+    usersOpen: boolean;
+    setUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const UsersList = (props: Props) => {
+const UsersList = ({ setUsersOpen }: Props) => {
     const { users } = useOnlineUsers();
 
     return (
         <div className="max-md:hidden w-full border-r h-screen overflow-y-auto bg-card">
-            <div className="p-4 py-3 border-b border-border">
-                <h2 className="text-lg font-semibold text-primary">Online Users</h2>
+            <div className="px-4  border-b border-border h-12 flex items-center justify-center">
+                <h2 onClick={() => setUsersOpen(e => !e)} className="text-lg font-semibold text-primary">
+                    Online Users
+                </h2>
             </div>
             <div className="space-y-4 mt-8 px-4">
                 {users.map(user => (
