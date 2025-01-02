@@ -5,10 +5,24 @@ import { Button } from './ui/button';
 import { Send } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import useChat from '../hooks/useChat';
-import { User } from '../types';
+import { Message, User } from '../types';
 import { Card, CardHeader, CardTitle } from './ui/card';
+import moment from 'moment';
 
 type Props = {};
+
+const UserMessage = ({ id, timestamp, content, userId, userName }: Message) => {
+    return (
+        <div key={id}>
+            <h4 className="mb-1 ml-0.5 -mt-0.5 text-muted-foreground text-xs capitalize">{userName}</h4>
+            <div className="bg-card py-1 px-2.5 rounded-xl rounded-tl-sm border border-border/90 min-w-[30%] max-w-[80%] w-fit shadow-md">
+                <p className="text-foreground/80 text-sm">{content}</p>
+
+                <p className="text-muted-foreground text-[10px] text-right ">{moment(timestamp).fromNow()}</p>
+            </div>
+        </div>
+    );
+};
 
 const MainWindow = (props: Props) => {
     const { user } = useAuth();
@@ -23,25 +37,7 @@ const MainWindow = (props: Props) => {
             <ScrollArea className="flex-1 p-4 ">
                 <div className="grid gap-3 max-w-screen-md mx-auto mb-20">
                     {messages.map(message => (
-                        <div
-                            key={message.id}
-                            className="bg-card py-2.5 p-3 rounded-lg border border-border/90 min-w-[30%] max-w-[80%] w-fit"
-                        >
-                            <h4 className="mb-1 text-muted-foreground text-sm capitalize">{message.userName}</h4>
-
-                            <p className="text-foreground/80 ">{message.content}</p>
-
-                            <p className="text-muted-foreground text-xs text-right mt-0.5">
-                                {new Date(message.timestamp).toLocaleString(undefined, {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric',
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true,
-                                })}
-                            </p>
-                        </div>
+                        <UserMessage key={message.id} {...message} />
                     ))}
                 </div>
             </ScrollArea>
@@ -50,8 +46,7 @@ const MainWindow = (props: Props) => {
                 <form
                     onSubmit={e => {
                         e.preventDefault();
-                        const content = (e.target as any).message.value;
-                        sendMessage(content, user as User);
+                        sendMessage((e.target as any).message.value);
                         (e.target as any).message.value = '';
                     }}
                     className="flex gap-2  max-w-screen-md mx-auto"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { getDatabase, ref, set, onDisconnect, serverTimestamp as serverTimestampRtdb } from 'firebase/database';
 import { User } from '../types';
 import { db } from '../lib/firebase';
 
@@ -17,6 +18,12 @@ const useAuth = () => {
         else setIsLoading(false);
     }, []);
 
+    const updatePresence = (userId: string, userName: string) => {
+        const database = getDatabase();
+        const userStatusRef = ref(database, `status/${userId}`);
+        set(userStatusRef, { name: userName, isOnline: true, lastOnline: serverTimestampRtdb() });
+        onDisconnect(userStatusRef).update({ isOnline: false, lastOnline: serverTimestampRtdb() });
+    };
 
     const checkExistingUser = async (name: string) => {
         setIsLoading(true);
@@ -28,10 +35,11 @@ const useAuth = () => {
 
             if (!userSnap.empty) {
                 const existingUser = userSnap.docs[0].data() as User;
-                await updateDoc(doc(db, 'users', existingUser.id), {
-                    isOnline: true,
-                    lastOnline: serverTimestamp(),
-                });
+                const userId = existingUser.id;
+                const userName = existingUser.name;
+
+                updatePresence(userId, userName);
+
                 setUser(existingUser);
                 return existingUser;
             }
@@ -60,25 +68,16 @@ const useAuth = () => {
             const newUser: User = {
                 id: userId,
                 name,
-                isOnline: true,
-                lastOnline: serverTimestamp(),
                 userAgent,
-                isTyping: false,
                 createdAt: serverTimestamp(),
             };
 
             await setDoc(doc(db, 'users', userId), newUser);
+            updatePresence(userId, name);
+
             Cookies.set('userId', userId, { expires: 7 });
             Cookies.set('userName', name, { expires: 7 });
             setUser(newUser);
-
-            window.addEventListener('beforeunload', () => {
-                updateDoc(doc(db, 'users', userId), {
-                    isOnline: false,
-                    lastOnline: serverTimestamp(),
-                    isTyping: false,
-                });
-            });
 
             return newUser;
         } catch (error) {

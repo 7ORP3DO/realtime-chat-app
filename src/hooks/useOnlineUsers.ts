@@ -1,31 +1,35 @@
-import { useState, useEffect } from "react";
-import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
-import { User } from "../types";
-import { db } from "../lib/firebase";
+import { useState, useEffect } from 'react';
+import { onValue, query, ref, limitToLast, orderByChild } from 'firebase/database';
+import { User, UserStatus } from '../types';
+import { rtdb } from '../lib/firebase';
 
+const useOnlineUsers = () => {
+    const [users, setUsers] = useState<UserStatus[]>([]);
 
- const useOnlineUsers = () => {
-  const [users, setUsers] = useState<User[]>([]);
+    useEffect(() => {
+        const userStatusRef = query(ref(rtdb, 'status'), orderByChild('lastOnline'), limitToLast(25));
 
-  useEffect(() => {
-    const q = query(
-      collection(db, 'users'),
-      orderBy('lastOnline', 'desc'),
-      limit(25)
-    );
+        const unsubscribe = onValue(userStatusRef, snapshot => {
+            const usersData: UserStatus[] = [];
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const updatedUsers = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }) as User);
-      setUsers(updatedUsers);
-    });
+            snapshot.forEach(childSnapshot => {
+                const user = childSnapshot.val();
+                usersData.push({
+                    id: childSnapshot.key || '',
+                    ...user,
+                });
+            });
 
-    return () => unsubscribe();
-  }, []);
+            // Sort users by `lastOnline` descending (Firebase Realtime Database `limitToLast` provides ascending order)
+            // usersData.sort((a, b) => b.lastOnline - a.lastOnline);
+            setUsers(usersData);
+        });
 
-  return { users };
+        // Clean up the listener
+        return () => unsubscribe();
+    }, []);
+
+    return { users };
 };
 
 export default useOnlineUsers;
