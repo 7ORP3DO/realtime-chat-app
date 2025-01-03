@@ -4,6 +4,7 @@ import { cn } from '../../lib/utils';
 
 import Linkify from 'linkify-react';
 import { Opts } from 'linkifyjs';
+import countries from '../../data/country-data';
 
 interface UserMessageProp extends Message {
     showName: boolean;
@@ -19,13 +20,17 @@ const linkOptions: Opts = {
     target: '_blank',
 };
 
-const UserMessage = ({ id, timestamp, content, userName, showName, isOwnMessage }: UserMessageProp) => {
+const UserMessage = ({ id, timestamp, content, userName, showName, isOwnMessage, userCountry }: UserMessageProp) => {
     return (
         <div key={id}>
+            {/* <span className="text-[10px] lowercase"> from India</span> */}
             {showName && !isOwnMessage && (
-                <h4 className={cn('mb-0.5 mt-1.5 ml-0.5 text-muted-foreground text-sm capitalize')}>
+                <h4 className={cn(' mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize')}>
                     {userName}
-                    <span className="text-[10px] lowercase"> from India</span>
+                    <img
+                        className="size-5 ml-0.5 -translate-y-[1px] inline"
+                        src={countries?.[userCountry]?.image || countries?.['AC'].image}
+                    />
                 </h4>
             )}
             <div

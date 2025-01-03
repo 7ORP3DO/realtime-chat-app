@@ -22,10 +22,11 @@ const useChat = (currentUser: User | null) => {
     const sendMessage = async (content: string) => {
         if (!currentUser) return;
 
-        const newMessage = {
+        const newMessage: Partial<Message> = {
+            content,
             userId: currentUser.id,
             userName: currentUser.name,
-            content,
+            userCountry: currentUser.country,
             timestamp: serverTimestamp(),
         };
 
