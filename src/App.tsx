@@ -1,19 +1,16 @@
+import { Route, Routes } from 'react-router';
 import Dashboard from './components/dashboard';
-import Welcome from './components/welcome';
-import useAuth from './hooks/useAuth';
-import useChat from './hooks/useChat';
-import useOnlineUsers from './hooks/useOnlineUsers';
+import Home from './pages/home';
+import Chat from './pages/chat';
 
 function App() {
-    const { initializeUser, user, isLoading } = useAuth();
-    const { messages, sendMessage } = useChat(user);
-    const { users } = useOnlineUsers();
+    return (
+        <Routes>
+            <Route index element={<Home />} />
+            <Route path="chat" element={<Chat />} />
+        </Routes>
+    );
 
-    if (!user) return <Welcome onSubmit={initializeUser} isLoading={isLoading} />;
-
-    return <Dashboard />
-
-  
     // return (
     //     <div>
     //         <h1>Chat</h1>

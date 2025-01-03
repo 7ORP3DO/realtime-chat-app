@@ -1,38 +1,62 @@
 import { ArrowRight, ArrowRightIcon, Loader2 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
-import { RainbowButton } from './ui/rainbow-button';
-import AnimatedGridPattern from './ui/animated-grid-pattern';
-import ShineBorder from './ui/shine-border';
-import AnimatedShinyText from './ui/animated-shiny-text';
+import { Navigate, useNavigate } from 'react-router';
+import ShineBorder from '../components/ui/shine-border';
+import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
+import AnimatedGridPattern from '../components/ui/animated-grid-pattern';
+import AnimatedShinyText from '../components/ui/animated-shiny-text';
+import useAuth from '../hooks/useAuth';
 
-type Props = {
-    isLoading: boolean;
-    onSubmit: (name: string) => void;
-};
+type Props = {};
 
-const Welcome = ({ onSubmit, isLoading }: Props) => {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const Home = ({}: Props) => {
+    const navigate = useNavigate();
+    const { initializeUser, user, isLoading } = useAuth();
+
+    if (user?.id) return <Navigate to={'/chat'} />;
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault;
         const name = (e.target as any).name.value;
-
-        onSubmit(name);
+        const loggedUser = await initializeUser(name);
+        if (loggedUser?.id) navigate('/chat');
     };
+
+    const LoginCard = () => (
+        <ShineBorder
+            className="mt-14 md:mt-24 backdrop-blur bg-muted/40 relative w-full max-w-xl mx-auto"
+            color={['#fb923c', '#ec4899', '#9333ea']}
+            borderWidth={2}
+            borderRadius={24}
+        >
+            <form onSubmit={handleSubmit} className="w-full">
+                <CardHeader>
+                    <CardTitle>Join the Chat</CardTitle>
+                    <CardDescription>Enter your name to join the chat</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Input name="name" placeholder="Enter your name" className="bg-muted/50" />
+                </CardContent>
+                <CardFooter>
+                    <Button className="ml-auto">
+                        Join the Chat <ArrowRight />{' '}
+                    </Button>
+                </CardFooter>
+            </form>
+        </ShineBorder>
+    );
 
     return (
         <div className="min-h-dvh relative">
             <AnimatedGridPattern
-                numSquares={70}
                 width={35}
                 height={35}
                 maxOpacity={0.2}
-                duration={3}
-                repeatDelay={1}
                 className={'[mask-image:linear-gradient(to_top,#fff9,transparent)]'}
             />
             <div className="max-w-screen-xl mx-auto px-4 py-8 min-h-dvh flex items-center justify-center">
-                <div className='-translate-y-10'>
+                <div className="-translate-y-10">
                     <div
                         className={
                             'group relative z-10 w-fit mx-auto rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800'
@@ -59,27 +83,7 @@ const Welcome = ({ onSubmit, isLoading }: Props) => {
                             <Loader2 className="size-14 animate-spin " />
                         </div>
                     ) : (
-                        <ShineBorder
-                            className="mt-14 md:mt-24 backdrop-blur bg-muted/40 relative w-full max-w-xl mx-auto"
-                            color={['#fb923c', '#ec4899', '#9333ea']}
-                            borderWidth={2}
-                            borderRadius={24}
-                        >
-                            <form onSubmit={handleSubmit} className="w-full">
-                                <CardHeader>
-                                    <CardTitle>Join the Chat</CardTitle>
-                                    <CardDescription>Enter your name to join the chat</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <Input name="name" placeholder="Enter your name" className="bg-muted/50" />
-                                </CardContent>
-                                <CardFooter>
-                                    <Button className="ml-auto">
-                                        Join the Chat <ArrowRight />{' '}
-                                    </Button>
-                                </CardFooter>
-                            </form>
-                        </ShineBorder>
+                        <LoginCard />
                     )}
                 </div>
             </div>
@@ -87,4 +91,4 @@ const Welcome = ({ onSubmit, isLoading }: Props) => {
     );
 };
 
-export default Welcome;
+export default Home;

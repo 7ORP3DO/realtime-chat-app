@@ -1,7 +1,6 @@
 import moment from 'moment';
 import useOnlineUsers from '../hooks/useOnlineUsers';
 import { cn } from '../lib/utils';
-import { Card, CardDescription, CardTitle } from './ui/card';
 
 type Props = {
     usersOpen: boolean;
@@ -9,7 +8,7 @@ type Props = {
 };
 
 const UsersList = ({ setUsersOpen }: Props) => {
-    const { users } = useOnlineUsers();
+    const { users } = useOnlineUsers({});
 
     return (
         <div className="max-md:hidden w-full border-r h-screen overflow-y-auto bg-card">
@@ -45,30 +44,5 @@ const UsersList = ({ setUsersOpen }: Props) => {
         </div>
     );
 };
-
-{
-    /* <Card
-                        key={user.id}
-                        className="rounded-md  bg-gradient-to-b border border-neutral-800 from-neutral-950 to-neutral-800/70 px-3 py-1.5 grid grid-cols-[1fr_1rem] items-center"
-                    >
-                        <div>
-                            <h4 className="capitalize">{user.name}</h4>
-                            <p className="text-xs text-muted-foreground mt-0.5 ">
-                                <b>Last Seen: </b>
-                                {(new Date(user.lastOnline)).toLocaleString(undefined, {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric',
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true,
-                                })}
-                            </p>
-                        </div>
-                        <div>
-                            <p className="size-3 mx-auto bg-green-500 rounded-full"></p>
-                        </div>
-                    </Card> */
-}
 
 export default UsersList;
