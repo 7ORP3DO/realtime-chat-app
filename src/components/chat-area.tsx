@@ -21,7 +21,7 @@ type Props = {
 
 const ChatArea = (props: Props) => {
     const { user } = useAuth();
-    const { messages, sendMessage } = useChat(user);
+    const { messages, sendMessage, isSending, isLoading } = useChat(user);
 
     return (
         <>
@@ -39,7 +39,7 @@ const ChatArea = (props: Props) => {
                     </div>
                 </ScrollArea>
 
-                <MessageInput onSubmit={sendMessage} />
+                <MessageInput onSubmit={sendMessage} isSending={isSending} />
             </div>
         </>
     );

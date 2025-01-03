@@ -25,7 +25,7 @@ const UserMessage = ({ id, timestamp, content, userName, showName, isOwnMessage,
         <div key={id}>
             {/* <span className="text-[10px] lowercase"> from India</span> */}
             {showName && !isOwnMessage && (
-                <h4 className={cn(' mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize')}>
+                <h4 className={cn(' mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize w-fit')}>
                     {userName}
                     <img
                         className="size-5 ml-0.5 -translate-y-[1px] inline"

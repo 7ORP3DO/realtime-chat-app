@@ -17,7 +17,7 @@ const Chat = (props: Props) => {
             <div className="px-4 border-b border-r h-12 grid place-items-center max-md:hidden">
                 <h2 className="text-lg font-semibold text-muted-foreground">Online Users</h2>
             </div>
-            <ChatHeader user={user} setShowUsers={setShowUsers} />
+            <ChatHeader user={user} setShowUsers={setShowUsers} showUsers={showUsers} />
             <UsersList showUsers={showUsers} />
             <ChatArea />
         </div>
