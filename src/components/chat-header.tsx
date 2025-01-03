@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import moment from 'moment';
 import { User } from '../types';
 import useOnlineUsers from '../hooks/useOnlineUsers';
+import countries from '../data/country-data';
 
 type Props = {
     user: User;
@@ -20,7 +21,9 @@ type Props = {
 
 const OnlineCountBadge = ({ count = 0, onClick }: { count: number; onClick: () => void }) => (
     <p
+        role="button"
         onClick={onClick}
+        title={`Online Users: ${count}`}
         className="border py-0.5 px-2 rounded-md  border-green-500 text-green-400 bg-gradient-to-b from-green-500/20 to-green-500/30 font-[Electrolize] font-semibold"
     >
         <span className="flex items-center gap-1">
@@ -40,7 +43,8 @@ const Profile = ({ user }: { user: User }) => (
         <DropdownMenuContent align="end" className="">
             <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
             <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
-                <b>Country:</b> India
+                <b>Country:</b> {countries[user?.country].name} <img className='size-5 inline' src={countries[user?.country].image} />
+                {/* ({countries[user?.country].emoji}) */}
             </DropdownMenuLabel>
             <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
                 <b>Joined:</b> {moment(user?.createdAt?.toDate()).format('D MMM YYYY, h:mm a')}

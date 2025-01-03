@@ -1,8 +1,11 @@
+import countries from "../data/country-data";
+
 type FirebaseTimestamp = firebase.firestore.Timestamp;
 
 export interface User {
     id: string;
     name: string;
+    country: keyof typeof countries;
     userAgent: string;
     typingTimeout?: NodeJS.Timeout;
     createdAt?: FirebaseTimestamp;

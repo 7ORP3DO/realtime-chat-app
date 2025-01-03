@@ -24,7 +24,7 @@ const UsersList = ({ showUsers }: Props) => {
                 </h2>
 
                 <div className="space-y-4 px-4 py-6">
-                    {[...users, ...users].map(user => (
+                    {[...users].map(user => (
                         <div
                             key={user.id}
                             className={
