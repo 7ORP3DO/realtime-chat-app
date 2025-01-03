@@ -28,7 +28,7 @@ const UsersList = ({ setUsersOpen }: Props) => {
                             <h4 className="capitalize">{user.name}</h4>
                             <p className="text-xs mt-0.5 text-muted-foreground">
                                 <b>Last Seen: </b>
-                                {user.isOnline ? 'online' : moment(user.lastOnline).fromNow()}
+                                {moment(user.lastOnline).fromNow()}
                             </p>
                         </div>
                         <div>
