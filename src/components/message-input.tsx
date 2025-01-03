@@ -27,7 +27,7 @@ const MessageInput = ({ onSubmit }: Props) => {
                 rows={1}
                     name="message"
                     placeholder="Write your message here..."
-                    className="md:min-h-14 bg-background"
+                    className="min-h-14 md:min-h-14 bg-background"
                     required
                     minLength={2}
                 />

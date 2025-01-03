@@ -9,25 +9,27 @@ type Props = {
 
 const UsersList = ({ showUsers }: Props) => {
     const { users } = useOnlineUsers({});
-    console.log(showUsers);
 
     return (
         <div
             className={cn(
-                'w-full border-r h-full overflow-hidden flex flex-col relative bg-card z-20 transition-all duration-500',
+                'w-full border-r h-full overflow-hidden flex bg-card z-20 transition-all duration-500',
                 'absolute md:relative top-0 max-md:-left-full',
                 showUsers && 'max-md:left-0'
             )}
         >
-            <ScrollArea>
-                <div className="space-y-4 px-4 py-12 max-md:pt-24">
-                    {[...users, ...users, , ...users].map(user => (
+            <ScrollArea className="w-full">
+                <h2 className="md:hidden mt-16 text-center text-lg font-semibold text-muted-foreground px-4">
+                    Online Users
+                </h2>
+
+                <div className="space-y-4 px-4 py-6">
+                    {[...users, ...users].map(user => (
                         <div
                             key={user.id}
-                            className={cn(
-                                'rounded-md border bg-muted/40 border-muted-foreground/15  px-3 py-1.5 grid grid-cols-[1fr_1rem] items-center',
-                                ''
-                            )}
+                            className={
+                                'rounded-md border bg-muted/40 border-muted-foreground/15  px-3 py-1.5 grid grid-cols-[1fr_1rem] items-center'
+                            }
                         >
                             <div>
                                 <h4 className="capitalize">{user.name}</h4>

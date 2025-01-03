@@ -14,8 +14,8 @@ const Chat = (props: Props) => {
 
     return (
         <div className="md:grid grid-cols-[20rem_1fr] h-dvh overflow-hidden">
-            <div className="px-4 border-b border-r border-border h-12 flex items-center justify-center max-md:hidden">
-                <h2 className="text-lg font-semibold text-primary">Online Users</h2>
+            <div className="px-4 border-b border-r h-12 grid place-items-center max-md:hidden">
+                <h2 className="text-lg font-semibold text-muted-foreground">Online Users</h2>
             </div>
             <ChatHeader user={user} setShowUsers={setShowUsers} />
             <UsersList showUsers={showUsers} />

@@ -25,8 +25,8 @@ const ChatArea = (props: Props) => {
 
     return (
         <>
-            <div className="w-full border-r h-full overflow-hidden flex flex-col bg-muted/35">
-                <ScrollArea className="flex-1 px-2">
+            <div className="w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative">
+                <ScrollArea className="w-full px-2">
                     <div className="grid gap-1 max-w-screen-md mx-auto mb-56 mt-16">
                         {messages.map((message, index) => (
                             <UserMessage
