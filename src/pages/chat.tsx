@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import UsersList from '../components/users-list';
 import ChatArea from '../components/chat-area';
-import useAuth from '../hooks/useAuth';
 import ChatHeader from '../components/chat-header';
+import { useAuthContext } from '../context/auth-context';
 
 type Props = {};
 
 const Chat = (props: Props) => {
-    const { user } = useAuth();
+    const { user } = useAuthContext();
     const [showUsers, setShowUsers] = useState(false);
 
     if (!user) return <p></p>;

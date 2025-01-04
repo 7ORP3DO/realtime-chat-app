@@ -67,6 +67,7 @@ const useAuth = () => {
         setError(null);
 
         try {
+            console.log(`Checking existing user: ${name}`);
             const userAgent = getUserAgent();
             const userSnap = await getDocs(
                 query(collection(db, 'users'), where('name', '==', name), where('userAgent', '==', userAgent))

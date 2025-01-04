@@ -1,4 +1,4 @@
-import { ArrowRight,  Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 import { Navigate, useNavigate } from 'react-router';
 import ShineBorder from '../components/ui/shine-border';
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
@@ -6,21 +6,27 @@ import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import AnimatedGridPattern from '../components/ui/animated-grid-pattern';
 import AnimatedShinyText from '../components/ui/animated-shiny-text';
-import useAuth from '../hooks/useAuth';
+import { useAuthContext } from '../context/auth-context';
 
 type Props = {};
 
 const Home = ({}: Props) => {
-    const navigate = useNavigate();
-    const { initializeUser, user, isLoading } = useAuth();
+    const { initializeUser, user, isLoading } = useAuthContext();
 
-    if (user?.id) return <Navigate to={'/chat'} />;
+    if (user?.id) {
+        console.log(`User ${user.name} logged in. Redirecting to chat...`);
+        return <Navigate to={'/chat'} replace />;
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault;
         const name = (e.target as any).name.value;
         const loggedUser = await initializeUser(name);
-        if (loggedUser?.id) navigate('/chat');
+
+        if (loggedUser?.id) {
+            console.log(`User ${loggedUser.name} logged in`);
+            return <Navigate to={'/chat'} replace />;
+        }
     };
 
     const LoginCard = () => (

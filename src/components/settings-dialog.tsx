@@ -5,12 +5,12 @@ import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Save } from 'lucide-react';
 import { DropdownMenuSeparator } from './ui/dropdown-menu';
-import useAuth from '../hooks/useAuth';
+import { useAuthContext } from '../context/auth-context';
 
 interface Props extends DialogProps {}
 
 const SettingsDialog = ({ open, onOpenChange }: Props) => {
-    const { logout } = useAuth();
+    const { logout } = useAuthContext();
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>

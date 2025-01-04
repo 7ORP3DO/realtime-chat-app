@@ -1,11 +1,11 @@
 import { Fragment, useRef } from 'react';
 import { ScrollArea } from './ui/scroll-area';
-import useAuth from '../hooks/useAuth';
 import useChat from '../hooks/useChat';
 import UserMessage from './ui/user-message';
 import MessageInput from './message-input';
 import moment from 'moment';
 import { Message } from '../types';
+import { useAuthContext } from '../context/auth-context';
 
 const formatMessageDate = (date: Date): string => {
     return moment(date).calendar(null, {
@@ -29,7 +29,7 @@ const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
 );
 
 const ChatArea = () => {
-    const { user } = useAuth();
+    const { user } = useAuthContext();
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { messages, sendMessage, isSending } = useChat(user);
 
@@ -44,7 +44,9 @@ const ChatArea = () => {
                             <UserMessage
                                 {...msg}
                                 isOwnMessage={msg.userId === user?.id}
-                                showName={messages[i - 1]?.userId !== msg.userId || shouldShowDate(msg, messages[i - 1])}
+                                showName={
+                                    messages[i - 1]?.userId !== msg.userId || shouldShowDate(msg, messages[i - 1])
+                                }
                             />
                         </Fragment>
                     ))}
