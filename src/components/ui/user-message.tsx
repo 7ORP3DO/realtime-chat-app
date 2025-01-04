@@ -35,7 +35,8 @@ const UserMessage = ({ id, timestamp, content, userName, showName, isOwnMessage,
             )}
             <div
                 className={cn(
-                    'bg-gradient-to-b from-neutral-800/80 to-neutral-900 py-1 px-2.5 rounded-xl border min-w-36 max-w-[75%] w-fit shadow-md text-foreground/90',
+                    'border-neutral-700/40 from-neutral-800/90 to-neutral-900/90 text-foreground/90',
+                    'border bg-gradient-to-b  py-1 px-2.5 rounded-xl min-w-36 max-w-[75%] w-fit shadow-md ',
                     showName && !isOwnMessage && 'rounded-tl-none',
                     isOwnMessage && 'ml-auto rounded-tr-none'
                 )}
@@ -43,8 +44,9 @@ const UserMessage = ({ id, timestamp, content, userName, showName, isOwnMessage,
                 <p className="[&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4">
                     <Linkify options={linkOptions}>{content}</Linkify>
                 </p>
-                <p className="mt-.5 text-muted-foreground text-[10px] md:text-xs text-right ">
-                    {moment(timestamp?.toDate()).fromNow()}
+                <p className="mt-.5 text-muted-foreground text-[10px] text-right ">
+                    {/* {moment(timestamp?.toDate()).fromNow()} */}
+                    {moment(timestamp?.toDate()).format('hh:mm A')}
                 </p>
             </div>
         </div>

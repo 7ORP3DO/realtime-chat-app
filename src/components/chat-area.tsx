@@ -14,6 +14,8 @@ import {
 } from './ui/dropdown-menu';
 import moment from 'moment';
 import { CodeSquare, Info, LogOut, Settings, User } from 'lucide-react';
+import ScrollProgress from './ui/scroll-progress';
+import { useRef } from 'react';
 
 type Props = {
     // setUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,13 +23,16 @@ type Props = {
 
 const ChatArea = (props: Props) => {
     const { user } = useAuth();
-    const { messages, sendMessage, isSending, isLoading } = useChat(user);
+    const chatContainerRef = useRef(null);
+    const { messages, sendMessage, isSending } = useChat(user);
 
     return (
         <>
-            <div className="w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative">
-                <ScrollArea className="w-full px-2">
-                    <div className="grid gap-1 max-w-screen-md mx-auto mb-56 mt-16">
+            <div  className="w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative">
+                {/* <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px] md:h-0.5" /> */}
+
+                <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
+                    <div  className="grid gap-1 max-w-screen-md mx-auto mb-56 mt-16">
                         {messages.map((message, index) => (
                             <UserMessage
                                 {...message}
