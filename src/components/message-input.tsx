@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Loader2Icon, Send } from 'lucide-react';
 import { Textarea } from './ui/textarea';
+import { Input } from './ui/input';
 
 type Props = {
     onSubmit: (e: string) => void;
@@ -9,7 +10,8 @@ type Props = {
 };
 
 const MessageInput = ({ onSubmit, isSending }: Props) => {
-    const inputRef = useRef<HTMLTextAreaElement>(null);
+    // const inputRef = useRef<HTMLTextAreaElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,7 +32,7 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
             <div className="absolute w-full top-0 -translate-y-full z-10 h-10 left-0 bg-gradient-to-b from-transparent to-card/70 border-b"></div>
 
             <form onSubmit={handleSubmit} className="flex gap-2  max-w-screen-md mx-auto group">
-                <Textarea
+                {/* <Textarea
                     ref={inputRef}
                     rows={1}
                     name="message"
@@ -40,9 +42,34 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
                     maxLength={160}
                     required
                     disabled={isSending}
-                />
-                <Button size="icon" className="shrink-0 group-invalid:opacity-50 group-invalid:cursor-not-allowed" disabled={isSending}>
+                /> */}
+
+                {/* <Button
+                    size="icon"
+                    className="shrink-0 group-invalid:opacity-50 group-invalid:cursor-not-allowed"
+                    disabled={isSending}
+                >
                     {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-4" />}
+                </Button> */}
+
+                <Input
+                    ref={inputRef}
+                    // rows={1}
+                    name="message"
+                    placeholder="Write your message here..."
+                    className="bg-background"
+                    minLength={2}
+                    maxLength={160}
+                    required
+                    disabled={isSending}
+                ></Input>
+
+                <Button
+                    size="icon"
+                    className="gradient text-white rounded-lg shrink-0 group-invalid:brightness-75 group-invalid:cursor-not-allowed"
+                    disabled={isSending}
+                >
+                    {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-5" />}
                 </Button>
             </form>
         </div>

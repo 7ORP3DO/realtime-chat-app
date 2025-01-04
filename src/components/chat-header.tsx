@@ -19,7 +19,7 @@ interface OnlineCountBadgeProps {
 
 const OnlineCountBadge = ({ count = 0, onClick, showUsers }: OnlineCountBadgeProps) => {
     const buttonClasses = cn(
-        'border w-12 h-8 rounded-md',
+        'border w-12 h-[30px] rounded-md',
         'bg-gradient-to-b border-green-500 text-green-400 from-green-500/20 to-green-500/30',
         'font-[Electrolize] font-semibold flex items-center justify-center gap-1'
     );
@@ -27,7 +27,7 @@ const OnlineCountBadge = ({ count = 0, onClick, showUsers }: OnlineCountBadgePro
     return (
         <p onClick={onClick} aria-label={`${count} users online `} className={buttonClasses}>
             {/* Mobile view */}
-            <span className="md:hidden flex items-center gap-1">
+            <span className="md:hidden flex items-center gap-1 ">
                 {showUsers ? (
                     <MessageCircleMoreIcon className="size-5 m-0.5" aria-hidden="true" />
                 ) : (
@@ -55,10 +55,12 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ user, setShowUsers, showUsers }
     return (
         <header className="px-4 py-1 border-b bg-card shadow-md flex gap-2.5 items-center justify-between h-12 z-50 sticky top-0">
             <OnlineCountBadge count={onlineCount} onClick={handleToggleUsers} showUsers={showUsers} />
-            <h1 className="text-gradient mx-auto text-xl font-semibold w-fit translate-x-1/3 md:translate-x-full">Chat World</h1>
+            <h1 className="text-gradient mx-auto text-xl font-semibold w-fit translate-x-1/3 md:translate-x-full">
+                Chat World
+            </h1>
 
-            <p className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5">
-                <GithubIcon className='size-4' /> 
+            <p className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5 flex gap-1 items-center text-sm">
+                <GithubIcon className="size-4" />
             </p>
 
             <ProfileAvatar user={user} />
