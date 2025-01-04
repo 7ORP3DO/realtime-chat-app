@@ -23,7 +23,7 @@ const shouldShowDate = (currentMessage: Message, previousMessage?: Message): boo
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     // <div className="border bg-gradient-to-b border-purple-500/60 text-purple-500 from-purple-500/15 to-purple-500/30 w-fit mx-auto text-muted-foreground text-xs py-1 px-2 rounded-md my-4">
-    <div className="border bg-gradient-to-b border-zinc-800 text-zinc-400 from-zinc-900 to-zinc-800/80 w-fit mx-auto text-sm py-1 px-2 rounded-md mt-5 mb-3">
+    <div className="border bg-gradient-to-b border-zinc-800 text-zinc-400 from-zinc-900 to-zinc-800/80 w-fit mx-auto text-xs md:text-sm py-1 px-2 rounded-md mt-5 mb-3">
         {formatMessageDate(date.toDate())}
     </div>
 );

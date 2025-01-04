@@ -11,7 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import moment from 'moment';
 import countries from '../data/country-data';
-import { CodeSquare, FileWarningIcon, Info, LogOut, Settings } from 'lucide-react';
+import { BadgeInfo, CodeSquare, FileWarningIcon, Info, InfoIcon, LogOut, Settings, UserIcon } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import SettingsDialog from './settings-dialog';
 import LogoutDialog from './logout-dialog';
@@ -27,10 +27,14 @@ const ProfileAvatar = ({ user }: { user: User }) => {
 
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Avatar className="size-8 cursor-pointer border">
+                    {/* <Avatar className="size-8 cursor-pointer border">
                         <AvatarImage src="https://github.com/shadcn.png" />
                         <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                    </Avatar> */}
+                    <p className="size-8 cursor-pointer border rounded-full bg-gradient-to-b border-orange-500 text-orange-400 from-orange-500/20 to-orange-500/30 grid place-items-center">
+                        <UserIcon className="size-5" />
+                        {/* <BadgeInfo className='size-5' /> */}
+                    </p>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="">
                     <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
