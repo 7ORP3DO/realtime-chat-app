@@ -59,9 +59,9 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ user, setShowUsers, showUsers }
                 Chat World
             </h1>
 
-            <p className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5 flex gap-1 items-center text-sm">
+            <a href='#' className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5 flex gap-1 items-center text-sm">
                 <GithubIcon className="size-4" />
-            </p>
+            </a>
 
             <ProfileAvatar user={user} />
         </header>

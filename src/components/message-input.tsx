@@ -54,11 +54,11 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
 
                 <Input
                     ref={inputRef}
-                    // rows={1}
                     name="message"
                     placeholder="Write your message here..."
                     className="bg-muted/75"
                     minLength={2}
+                    max={160}
                     maxLength={160}
                     required
                     disabled={isSending}
