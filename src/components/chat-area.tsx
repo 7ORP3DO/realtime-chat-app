@@ -36,7 +36,7 @@ const ChatArea = () => {
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
             <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
-                <div className="grid gap-1 max-w-screen-md mx-auto mb-72 mt-16">
+                <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-16">
                     {messages.map((msg, i) => (
                         <Fragment key={msg.id}>
                             {shouldShowDate(msg, messages[i - 1]) && <DateDivider date={msg.timestamp} />}

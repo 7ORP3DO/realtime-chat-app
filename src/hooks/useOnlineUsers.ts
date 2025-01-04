@@ -1,31 +1,18 @@
 import { useState, useEffect } from 'react';
-import { onValue, query, ref, limitToLast, orderByChild, equalTo, get } from 'firebase/database';
-import { UserStatus } from '../types';
+import { query, ref, orderByChild, equalTo, get, onValue, limitToLast } from 'firebase/database';
 import { rtdb } from '../lib/firebase';
+
+import { UserStatus } from '../types';
 import { reverse } from 'lodash';
 
-// Options interface for the hook
 interface UseOnlineUsersOptions {
-    limit?: number; // Maximum number of users to fetch
-    countOnly?: boolean; // Whether to only count online users
+    limit?: number;
 }
 
-// Custom hook to fetch online users and/or their count
-const useOnlineUsers = ({ limit = 25, countOnly = false }: UseOnlineUsersOptions) => {
-    const [users, setUsers] = useState<UserStatus[]>([]); // State for user data
-    const [onlineCount, setOnlineCount] = useState<number>(0); // State for online users count
+const useOnlineUsers = ({ limit = 25 }: UseOnlineUsersOptions = {}) => {
+    const [users, setUsers] = useState<UserStatus[]>([]);
 
-    const fetchOnlineCount = async () => {
-        try {
-            const countQuery = query(ref(rtdb, 'status'), orderByChild('isOnline'), equalTo(true));
-            const snapshot = await get(countQuery);
-            setOnlineCount(snapshot.size);
-        } catch (error) {
-            console.error('Error fetching online count:', error);
-        }
-    };
-
-    const fetchUsers = () => {
+    useEffect(() => {
         const userQuery = query(ref(rtdb, 'status'), orderByChild('lastOnline'), limitToLast(limit));
 
         const unsubscribe = onValue(userQuery, snapshot => {
@@ -39,20 +26,10 @@ const useOnlineUsers = ({ limit = 25, countOnly = false }: UseOnlineUsersOptions
             setUsers(reverse(usersData));
         });
 
-        return unsubscribe;
-    };
+        return () => unsubscribe();
+    }, [limit]);
 
-    useEffect(() => {
-        if (countOnly) {
-            fetchOnlineCount();
-        } else {
-            const unsubscribe = fetchUsers();
-            fetchOnlineCount();
-            return () => unsubscribe();
-        }
-    }, [limit, countOnly]);
-
-    return { users, onlineCount };
+    return { users };
 };
 
 export default useOnlineUsers;

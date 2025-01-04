@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import { GithubIcon, MessageCircleMoreIcon, Star, UserIcon } from 'lucide-react';
 import { User } from '../types';
 import { cn } from '../lib/utils';
-import useOnlineUsers from '../hooks/useOnlineUsers';
 import ProfileAvatar from './profile-avatar';
+import useOnlineCount from '../hooks/useOnlineCount';
 
 interface ChatHeaderProps {
     user: User;
@@ -46,11 +46,8 @@ const OnlineCountBadge = ({ count = 0, onClick, showUsers }: OnlineCountBadgePro
 };
 
 const ChatHeader: React.FC<ChatHeaderProps> = ({ user, setShowUsers, showUsers }) => {
-    const { onlineCount } = useOnlineUsers({ countOnly: true });
-
-    const handleToggleUsers = useCallback(() => {
-        setShowUsers(prev => !prev);
-    }, [setShowUsers]);
+    const { onlineCount } = useOnlineCount();
+    const handleToggleUsers = useCallback(() => setShowUsers(prev => !prev), [setShowUsers]);
 
     return (
         <header className="px-4 py-1 border-b bg-card shadow-md flex gap-2.5 items-center justify-between h-12 z-50 sticky top-0">
@@ -59,7 +56,10 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ user, setShowUsers, showUsers }
                 Chat World
             </h1>
 
-            <a href='#' className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5 flex gap-1 items-center text-sm">
+            <a
+                href="#"
+                className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5 flex gap-1 items-center text-sm"
+            >
                 <GithubIcon className="size-4" />
             </a>
 

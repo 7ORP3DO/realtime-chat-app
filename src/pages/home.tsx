@@ -25,7 +25,7 @@ const Home = ({}: Props) => {
 
     const LoginCard = () => (
         <ShineBorder
-            className="mt-14 md:mt-24 backdrop-blur bg-muted/40 relative w-full max-w-xl mx-auto"
+            className="mt-14 md:mt-24 backdrop-blur bg-card/50 relative w-full max-w-xl mx-auto"
             // color={['#fb923c', '#ec4899', '#9333ea']}2563eb
             color={['#3b82f6', '#a855f7', '#f43f5e']}
             borderWidth={2}
