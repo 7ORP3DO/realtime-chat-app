@@ -57,7 +57,7 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
                     // rows={1}
                     name="message"
                     placeholder="Write your message here..."
-                    className="bg-background"
+                    className="bg-muted/75"
                     minLength={2}
                     maxLength={160}
                     required
@@ -66,7 +66,7 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
 
                 <Button
                     size="icon"
-                    className="gradient text-white rounded-lg shrink-0 group-invalid:brightness-75 group-invalid:cursor-not-allowed"
+                    className="chat-gradient !bg-gradient-to-br !bg-local text-white rounded-lg shrink-0 group-invalid:grayscale group-invalid:cursor-not-allowed transition-all duration-500"
                     disabled={isSending}
                 >
                     {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-5" />}

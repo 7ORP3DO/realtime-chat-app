@@ -69,7 +69,7 @@ const Home = ({}: Props) => {
                         </AnimatedShinyText>
                     </div>
 
-                    <h1 className="text-3xl md:text-5xl mt-6 leading-[1.1] font-semibold text-center">
+                    <h1 className="text-3xl md:text-5xl mt-6 leading-[1.1] font-bold text-center">
                         {/* The simplest way to <br /> <span className="text-gradient"> connect with the world</span>! */}
                         Welcome to <span className="text-gradient">ChatWorld</span>
                     </h1>
