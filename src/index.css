@@ -90,7 +90,7 @@
     }
 
     .chat-gradient {
-        @apply from-blue-700 via-purple-700 to-red-700 bg-no-repeat bg-center bg-fixed;
+        @apply from-blue-700 via-purple-700 to-rose-700 bg-no-repeat bg-center bg-fixed;
         /* @apply from-fuchsia-600 to-blue-600 bg-no-repeat bg-center bg-fixed; */
         /* @apply from-orange-500 via-red-600 to-purple-600 bg-no-repeat bg-center bg-fixed; */
         /* @apply from-orange-500 via-red-600 to-purple-600 bg-no-repeat bg-center bg-fixed; */

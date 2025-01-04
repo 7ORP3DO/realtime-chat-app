@@ -20,7 +20,7 @@ const fetchCountryCode = async (): Promise<string | null> => {
         if (!response.ok) throw new Error('Failed to fetch country info');
 
         const data: IpInfoResponse = await response.json();
-        return data.country;
+        return data.country as User['country'];
     } catch (error) {
         console.error('Error fetching country code:', error);
         return null;
@@ -111,7 +111,7 @@ const useAuth = () => {
                 id: userId,
                 name,
                 userAgent,
-                country: countryCode || undefined,
+                country: countryCode as User['country'],
                 createdAt: serverTimestamp(),
             };
 
