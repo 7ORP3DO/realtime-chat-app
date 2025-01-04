@@ -80,7 +80,7 @@ const UserMessage = (props: UserMessageProp) => {
 
     return (
         <UserContextMenu key={id} {...props}>
-            <div className='select-none'>
+            <div className="select-none">
                 {/* <span className="text-[10px] lowercase"> from India</span> */}
                 {showName && !isOwnMessage && (
                     <h4 className={cn(' mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize w-fit')}>
@@ -92,7 +92,7 @@ const UserMessage = (props: UserMessageProp) => {
                     </h4>
                 )}
 
-                {isOwnMessage && showName && <p className="mt-2"></p>}
+                {isOwnMessage && showName && <p className="mt-2 w-fit"></p>}
 
                 <div
                     className={cn(
@@ -104,7 +104,7 @@ const UserMessage = (props: UserMessageProp) => {
                         isOwnMessage && 'py-2 chat-gradient'
                     )}
                 >
-                    <p className="[&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4">
+                    <p className="text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4">
                         <Linkify options={linkOptions}>{content}</Linkify>
                     </p>
                     {!isOwnMessage && (

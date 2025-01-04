@@ -27,7 +27,7 @@ const OnlineCountBadge = ({ count = 0, onClick, showUsers }: OnlineCountBadgePro
     return (
         <p onClick={onClick} aria-label={`${count} users online `} className={buttonClasses}>
             {/* Mobile view */}
-            <span className="md:hidden flex items-center gap-1 ">
+            <span className="md:hidden flex items-center gap-1 md:gap-3 ">
                 {showUsers ? (
                     <MessageCircleMoreIcon className="size-5 m-0.5" aria-hidden="true" />
                 ) : (

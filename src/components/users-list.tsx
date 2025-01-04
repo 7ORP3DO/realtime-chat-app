@@ -23,7 +23,7 @@ const UsersList = ({ showUsers }: Props) => {
                     Online Users
                 </h2>
 
-                <div className="space-y-4 px-4 py-6">
+                <div className="space-y-3 px-4 py-6">
                     {[...users].map(user => (
                         <div
                             key={user.id}

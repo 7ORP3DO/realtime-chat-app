@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowRightIcon, Loader2 } from 'lucide-react';
+import { ArrowRight,  Loader2 } from 'lucide-react';
 import { Navigate, useNavigate } from 'react-router';
 import ShineBorder from '../components/ui/shine-border';
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
@@ -26,7 +26,8 @@ const Home = ({}: Props) => {
     const LoginCard = () => (
         <ShineBorder
             className="mt-14 md:mt-24 backdrop-blur bg-muted/40 relative w-full max-w-xl mx-auto"
-            color={['#fb923c', '#ec4899', '#9333ea']}
+            // color={['#fb923c', '#ec4899', '#9333ea']}2563eb
+            color={['#3b82f6', '#a855f7', '#f43f5e']}
             borderWidth={2}
             borderRadius={24}
         >
