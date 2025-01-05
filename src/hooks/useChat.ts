@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Message, User } from '../types';
-import  { differenceBy, uniqBy } from 'lodash';
+import { differenceBy, uniqBy } from 'lodash';
 import { useSettingsContext } from '../context/settings-context';
-import { loadInitialMessages, loadMoreMessages, sendMessage as sendMessageSerice, subscribeToNewMessages } from '../lib/chat';
+import { loadInitialMessages, loadMoreMessages, sendMessage as sendMessageService, subscribeToNewMessages } from '../lib/chat';
 import { soundManager } from '../lib/sound';
 
 const useChat = (currentUser: User | null) => {
@@ -11,71 +11,66 @@ const useChat = (currentUser: User | null) => {
     const [isSending, setIsSending] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
-    const store = useRef<any>({ lastMessageRef: null });
+    const store = useRef<{ lastMessageRef: any | null }>({ lastMessageRef: null });
     const { settings } = useSettingsContext();
-
-    useEffect(() => {
-        console.log('Filtering messages...');
-        setMessages(prev => uniqBy(prev, 'id'));
-    }, [messages.length]);
 
     // Load initial messages
     useEffect(() => {
         if (messages.length > 0) return;
 
-        (async () => {
-            // @ts-ignore
-            const { messages, hasMore, lastDoc } = await loadInitialMessages();
+        const fetchInitialMessages = async () => {
+            const { messages: initialMessages, hasMore: moreAvailable, lastDoc } = await loadInitialMessages();
 
-            setMessages(messages.reverse());
+            setMessages(uniqBy(initialMessages.reverse(), 'id'));
             store.current.lastMessageRef = lastDoc;
-            setHasMore(hasMore);
+            setHasMore(moreAvailable);
             setIsLoading(false);
-        })();
-    }, []);
+        };
 
+        fetchInitialMessages();
+    }, [messages.length]);
+
+    // Subscribe to new messages
     useEffect(() => {
         const unsubscribe = subscribeToNewMessages(newMsgs => {
-            const uniqueNewMsgs = differenceBy(newMsgs, messages, 'id');
-            console.log('New messages:', newMsgs.length, 'Unique new messages:', uniqueNewMsgs.length, 'Total messages:', messages.length);
-            if (uniqueNewMsgs.length == 0) return;
-
-            setMessages(prev => [...prev, ...uniqueNewMsgs]);
-
-            if (settings.soundEnabled) soundManager.play('newMessage');
+            setMessages(prevMessages => {
+                const uniqueNewMsgs = differenceBy(newMsgs, prevMessages, 'id');
+                if (uniqueNewMsgs.length > 0 && settings.soundEnabled) soundManager.play('newMessage');
+                return uniqBy([...prevMessages, ...uniqueNewMsgs], 'id');
+            });
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [settings.soundEnabled]);
 
     const loadMore = useCallback(async () => {
         if (!store.current.lastMessageRef || !hasMore) return;
 
         setIsLoading(true);
+        const { messages: olderMessages, hasMore: moreOlderMessages, lastDoc } = await loadMoreMessages(store.current.lastMessageRef);
 
-        const { messages, hasMore: hasMoreOlderMessages, lastDoc } = await loadMoreMessages(store.current.lastMessageRef);
+        setMessages(prevMessages => uniqBy([...olderMessages.reverse(), ...prevMessages], 'id'));
+        setIsLoading(false);
 
-        if (messages.length > 0) {
-            setMessages(prev => [...messages.reverse(), ...prev]);
-            store.current.lastMessageRef = lastDoc;
-            setHasMore(hasMoreOlderMessages);
-        } else {
-            setHasMore(false);
-        }
+        setHasMore(moreOlderMessages);
+        store.current.lastMessageRef = lastDoc;
     }, [hasMore]);
 
-    const sendMessage = async (content: string) => {
-        if (!currentUser) return;
-        setIsSending(true);
+    const sendMessage = useCallback(
+        async (content: string) => {
+            if (!currentUser) return;
 
-        try {
-            await sendMessageSerice(content, currentUser);
-        } catch (error) {
-            console.error('Error sending message:', error);
-        } finally {
-            setIsSending(false);
-        }
-    };
+            setIsSending(true);
+            try {
+                await sendMessageService(content, currentUser);
+            } catch (error) {
+                console.error('Error sending message:', error);
+            } finally {
+                setIsSending(false);
+            }
+        },
+        [currentUser]
+    );
 
     return { messages, isLoading, isSending, sendMessage, loadMore, hasMore };
 };

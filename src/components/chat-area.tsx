@@ -8,6 +8,8 @@ import { Message } from '../types';
 import { useAuthContext } from '../context/auth-context';
 import ScrollProgress from './ui/scroll-progress';
 import { useSettingsContext } from '../context/settings-context';
+import { Button } from './ui/button';
+import { HistoryIcon, RefreshCcw } from 'lucide-react';
 
 const formatMessageDate = (date: Date): string => {
     return moment(date).calendar(null, {
@@ -30,20 +32,29 @@ const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     </div>
 );
 
+const LoadMore = ({ onClick, isLoading }: { onClick?: () => void; isLoading: boolean }) => (
+    <div className="flex items-center justify-center my-6">
+        <Button variant={'secondary'} className="text-muted-foreground" size={'sm'} onClick={onClick} disabled={isLoading}>
+            {isLoading ? <RefreshCcw className="size-5 animate-spin" /> : <HistoryIcon className="size-5" />}
+            Load older messages
+        </Button>
+    </div>
+);
+
 const ChatArea = () => {
     const { user } = useAuthContext();
     const { settings } = useSettingsContext();
     const chatContainerRef = useRef<HTMLDivElement>(null);
-    const { messages, sendMessage, isSending } = useChat(user);
+    const { messages, sendMessage, isSending, isLoading, hasMore, loadMore } = useChat(user);
 
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
-            {settings.scrollIndicator && (
-                <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
-            )}
+            {settings.scrollIndicator && <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />}
 
             <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
-                <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-16">
+                <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-6">
+                    {hasMore && <LoadMore isLoading={isLoading} onClick={loadMore} />}
+
                     {messages.map((msg, i) => (
                         <Fragment key={msg.id}>
                             {shouldShowDate(msg, messages[i - 1]) && <DateDivider date={msg.timestamp} />}

@@ -20,5 +20,5 @@ export default function ScrollProgress({ className, container }: ScrollProgressP
         restDelta: 0.001,
     });
 
-    return <motion.div className={cn('absolute inset-x-0 top-0 z-40 h-1 origin-left gradient', className)} style={{ scaleX }} />;
+    return <motion.div className={cn('absolute inset-x-0 top-0 z-40 h-1 origin-left gradient max-w-[100dvw]', className)} style={{ scaleX }} />;
 }
