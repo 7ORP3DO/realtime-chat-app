@@ -9,7 +9,7 @@ import { useAuthContext } from '../context/auth-context';
 import ScrollProgress from './ui/scroll-progress';
 import { useSettingsContext } from '../context/settings-context';
 import { Button } from './ui/button';
-import { HistoryIcon, RefreshCcw } from 'lucide-react';
+import { HistoryIcon, LoaderCircle, RefreshCcw } from 'lucide-react';
 
 const formatMessageDate = (date: Date): string => {
     return moment(date).calendar(null, {
@@ -51,23 +51,32 @@ const ChatArea = () => {
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
             {settings.scrollIndicator && <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />}
 
-            <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
-                <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-6">
-                    {hasMore && <LoadMore isLoading={isLoading} onClick={loadMore} />}
-
-                    {messages.map((msg, i) => (
-                        <Fragment key={msg.id}>
-                            {shouldShowDate(msg, messages[i - 1]) && <DateDivider date={msg.timestamp} />}
-
-                            <UserMessage
-                                {...msg}
-                                isOwnMessage={msg.userId === user?.id}
-                                showName={messages[i - 1]?.userId !== msg.userId || shouldShowDate(msg, messages[i - 1])}
-                            />
-                        </Fragment>
-                    ))}
+            {isLoading && messages.length < 2 && (
+                <div className="w-full h-[80vh] flex flex-col gap-2 items-center justify-center text-muted-foreground/75">
+                    <LoaderCircle className="size-8 animate-spin" />
+                    <p className="animate-pulse">Loading Messages...</p>
                 </div>
-            </ScrollArea>
+            )}
+
+            {!(isLoading && messages.length < 2) && (
+                <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
+                    <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-6">
+                        {hasMore && <LoadMore isLoading={isLoading} onClick={loadMore} />}
+
+                        {messages.map((msg, i) => (
+                            <Fragment key={msg.id}>
+                                {shouldShowDate(msg, messages[i - 1]) && <DateDivider date={msg.timestamp} />}
+
+                                <UserMessage
+                                    {...msg}
+                                    isOwnMessage={msg.userId === user?.id}
+                                    showName={messages[i - 1]?.userId !== msg.userId || shouldShowDate(msg, messages[i - 1])}
+                                />
+                            </Fragment>
+                        ))}
+                    </div>
+                </ScrollArea>
+            )}
 
             <MessageInput onSubmit={sendMessage} isSending={isSending} />
         </div>
