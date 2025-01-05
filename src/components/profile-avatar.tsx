@@ -21,8 +21,6 @@ const ProfileAvatar = () => {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [logoutOpen, setLogoutOpen] = useState(false);
 
-    console.log(user);
-
     return (
         <div>
             <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
@@ -35,16 +33,18 @@ const ProfileAvatar = () => {
                         {/* <BadgeInfo className='size-5' /> */}
                     </p>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="">
+                <DropdownMenuContent align="end" className="min-w-40">
                     <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
                     <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
                         <b>Country:</b> {countries[user?.country]?.name}{' '}
                         <img className="size-5 inline" src={countries[user?.country]?.image} />
                         {/* ({countries[user?.country].emoji}) */}
                     </DropdownMenuLabel>
-                    {/* <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
-                        <b>Joined:</b> {moment(user?.createdAt?.toDate()).format('D MMM YYYY, h:mm a')}
-                    </DropdownMenuLabel> */}
+                    {user && user.createdAt && user.createdAt.toDate && (
+                        <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
+                            <b>Joined:</b> {moment(user?.createdAt?.toDate()).format('D MMM YYYY, h:mm a')}
+                        </DropdownMenuLabel>
+                    )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
                         <Settings /> Settings

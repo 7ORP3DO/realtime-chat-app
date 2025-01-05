@@ -65,7 +65,7 @@ const Home = ({}: Props) => {
                 className={'[mask-image:linear-gradient(to_top,#fff9,transparent)]'}
             />
             <div className="max-w-screen-xl mx-auto px-3 py-8 min-h-dvh flex items-center justify-center">
-                <div className="-translate-y-6">
+                <div className="-translate-y-3 md:-translate-y-6">
                     <div
                         className={
                             'group relative z-10 w-fit mx-auto rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800'
@@ -82,7 +82,7 @@ const Home = ({}: Props) => {
                         Welcome to <span className="text-gradient">ChatWorld</span>
                     </h1>
                     <p
-                        className="text-muted-foreground mt-4 max-w-screen-sm mx-auto text-center md:text-xl"
+                        className="text-muted-foreground mt-2 md:mt-4 max-w-screen-sm mx-auto text-center md:text-xl"
                         data-aos="fade-up"
                         data-aos-delay="500"
                     >
