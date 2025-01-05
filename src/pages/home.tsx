@@ -24,7 +24,7 @@ const Home = ({}: Props) => {
         e.preventDefault;
         setIsSubmitting(true);
         const name = (e.target as any).name.value;
-        const loggedUser = await initializeUser(name);
+        await initializeUser(name);
         setIsSubmitting(false);
         // if (loggedUser?.id) {
         //     console.log(`User ${loggedUser.name} logged in`);
