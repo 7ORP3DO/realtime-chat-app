@@ -1,5 +1,5 @@
 import { ArrowRight, Loader2 } from 'lucide-react';
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate } from 'react-router';
 import ShineBorder from '../components/ui/shine-border';
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -81,8 +81,7 @@ const Home = ({}: Props) => {
                         Welcome to <span className="text-gradient">ChatWorld</span>
                     </h1>
                     <p className="text-muted-foreground mt-4 max-w-screen-sm mx-auto text-center md:text-xl">
-                        Experience a simple, seamless way to chat. Just enter your name and join the global community.
-                        No signup, no hassle.
+                        Experience a simple, seamless way to chat. Just enter your name and join the global community. No signup, no hassle.
                     </p>
 
                     {isLoading ? (

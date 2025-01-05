@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { query, ref, orderByChild, equalTo, get, onValue, limitToLast } from 'firebase/database';
+import { query, ref, orderByChild, onValue, limitToLast } from 'firebase/database';
 import { rtdb } from '../lib/firebase';
 
 import { UserStatus } from '../types';

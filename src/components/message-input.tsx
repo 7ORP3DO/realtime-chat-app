@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { Loader2Icon, Send } from 'lucide-react';
-import { Textarea } from './ui/textarea';
 import { Input } from './ui/input';
 
 type Props = {

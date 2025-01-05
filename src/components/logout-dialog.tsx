@@ -1,5 +1,4 @@
 import { AlertDialogProps } from '@radix-ui/react-alert-dialog';
-import React from 'react';
 import {
     AlertDialog,
     AlertDialogContent,

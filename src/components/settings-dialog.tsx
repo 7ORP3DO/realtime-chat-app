@@ -1,11 +1,7 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { Switch } from './ui/switch';
 import { Label } from './ui/label';
-import { Button } from './ui/button';
-import { Save } from 'lucide-react';
-import { DropdownMenuSeparator } from './ui/dropdown-menu';
-import { useAuthContext } from '../context/auth-context';
 import { useSettingsContext } from '../context/settings-context';
 
 interface Props extends DialogProps {}

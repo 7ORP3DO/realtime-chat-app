@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { GithubIcon, MessageCircleMoreIcon, Star, UserIcon } from 'lucide-react';
+import { GithubIcon, MessageCircleMoreIcon, UserIcon } from 'lucide-react';
 import { User } from '../types';
 import { cn } from '../lib/utils';
 import ProfileAvatar from './profile-avatar';
@@ -52,9 +52,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ setShowUsers, showUsers }) => {
     return (
         <header className="px-4 py-1 border-b bg-card shadow-md flex gap-2.5 items-center justify-between h-12 z-50 sticky top-0">
             <OnlineCountBadge onClick={handleToggleUsers} showUsers={showUsers} />
-            <h1 className="text-gradient mx-auto text-xl font-bold w-fit translate-x-1/3 md:translate-x-full">
-                Chat World
-            </h1>
+            <h1 className="text-gradient mx-auto text-xl font-bold w-fit translate-x-1/3 md:translate-x-full">Chat World</h1>
 
             <a
                 href="#"

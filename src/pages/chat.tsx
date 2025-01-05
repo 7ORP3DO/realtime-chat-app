@@ -6,9 +6,7 @@ import { useAuthContext } from '../context/auth-context';
 import { Loader } from 'lucide-react';
 import { Navigate } from 'react-router';
 
-type Props = {};
-
-const Chat = (props: Props) => {
+const Chat = () => {
     const { user, isLoading } = useAuthContext();
     const [showUsers, setShowUsers] = useState(false);
 

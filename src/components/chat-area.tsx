@@ -38,9 +38,9 @@ const ChatArea = () => {
 
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
-            {/* {settings.scrollIndicator && (
+            {settings.scrollIndicator && (
                 <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
-            )} */}
+            )}
 
             <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
                 <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-16">
