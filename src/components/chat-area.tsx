@@ -20,13 +20,13 @@ const formatMessageDate = (date: Date): string => {
 
 const shouldShowDate = (currentMessage: Message, previousMessage?: Message): boolean => {
     if (!previousMessage) return true;
-    return !moment(currentMessage.timestamp?.toDate()).isSame(previousMessage.timestamp.toDate(), 'day');
+    return !moment(currentMessage.timestamp?.toDate()).isSame(previousMessage.timestamp?.toDate(), 'day');
 };
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     // <div className="border bg-gradient-to-b border-zinc-800 text-zinc-400 from-zinc-900 to-zinc-800/80 w-fit mx-auto text-xs md:text-sm py-1 px-2 rounded-md mt-5 mb-3">
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
-        {formatMessageDate(date.toDate())}
+        {formatMessageDate(date?.toDate())}
     </div>
 );
 
@@ -38,9 +38,9 @@ const ChatArea = () => {
 
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
-            {settings.scrollIndicator && (
+            {/* {settings.scrollIndicator && (
                 <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
-            )}
+            )} */}
 
             <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
                 <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-16">
@@ -51,9 +51,7 @@ const ChatArea = () => {
                             <UserMessage
                                 {...msg}
                                 isOwnMessage={msg.userId === user?.id}
-                                showName={
-                                    messages[i - 1]?.userId !== msg.userId || shouldShowDate(msg, messages[i - 1])
-                                }
+                                showName={messages[i - 1]?.userId !== msg.userId || shouldShowDate(msg, messages[i - 1])}
                             />
                         </Fragment>
                     ))}
