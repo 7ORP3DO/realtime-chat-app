@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,11 +15,13 @@ import LogoutDialog from './logout-dialog';
 import { useAuthContext } from '../context/auth-context';
 
 const ProfileAvatar = () => {
-    const { user } = useAuthContext();
-    if (!user) return null;
+    const { user, isLoading } = useAuthContext();
+    if (!user || isLoading) return <div></div>;
 
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [logoutOpen, setLogoutOpen] = useState(false);
+
+    console.log(user);
 
     return (
         <div>
@@ -28,10 +30,6 @@ const ProfileAvatar = () => {
 
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    {/* <Avatar className="size-8 cursor-pointer border">
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar> */}
                     <p className="size-8 cursor-pointer border rounded-full bg-gradient-to-b border-orange-500 text-orange-400 from-orange-500/20 to-orange-500/30 grid place-items-center">
                         <UserIcon className="size-5" />
                         {/* <BadgeInfo className='size-5' /> */}
@@ -44,9 +42,9 @@ const ProfileAvatar = () => {
                         <img className="size-5 inline" src={countries[user?.country]?.image} />
                         {/* ({countries[user?.country].emoji}) */}
                     </DropdownMenuLabel>
-                    <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
+                    {/* <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
                         <b>Joined:</b> {moment(user?.createdAt?.toDate()).format('D MMM YYYY, h:mm a')}
-                    </DropdownMenuLabel>
+                    </DropdownMenuLabel> */}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
                         <Settings /> Settings

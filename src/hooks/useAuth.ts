@@ -38,7 +38,7 @@ const useAuth = () => {
             const savedName = Cookies.get('userName');
 
             if (savedUserId && savedName) await checkExistingUser(savedName);
-            setIsLoading(false);
+            else setIsLoading(false);
         })();
     }, []);
 
@@ -69,9 +69,7 @@ const useAuth = () => {
         try {
             console.log(`Checking existing user: ${name}`);
             const userAgent = getUserAgent();
-            const userSnap = await getDocs(
-                query(collection(db, 'users'), where('name', '==', name), where('userAgent', '==', userAgent))
-            );
+            const userSnap = await getDocs(query(collection(db, 'users'), where('name', '==', name), where('userAgent', '==', userAgent)));
 
             if (!userSnap.empty) {
                 const existingUser = userSnap.docs[0].data() as User;
