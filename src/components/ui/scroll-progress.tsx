@@ -21,7 +21,7 @@ export default function ScrollProgress({ className, container }: ScrollProgressP
 
     return (
         <motion.div
-            className={cn('absolute inset-x-0 top-0 z-[1000] h-1 origin-left gradient', className)}
+            className={cn('absolute inset-x-0 top-0 z-40 h-1 origin-left gradient', className)}
             style={{ scaleX }}
         />
     );

@@ -3,14 +3,23 @@ import UsersList from '../components/users-list';
 import ChatArea from '../components/chat-area';
 import ChatHeader from '../components/chat-header';
 import { useAuthContext } from '../context/auth-context';
+import { Loader } from 'lucide-react';
+import { Navigate } from 'react-router';
 
 type Props = {};
 
 const Chat = (props: Props) => {
-    const { user } = useAuthContext();
+    const { user, isLoading } = useAuthContext();
     const [showUsers, setShowUsers] = useState(false);
 
-    if (!user) return <p></p>;
+    if (isLoading)
+        return (
+            <div className="h-screen w-screen grid place-items-center">
+                <Loader className="size-12 animate-spin text-muted-foreground" />
+            </div>
+        );
+
+    if (!user) return <Navigate to={'/'} />;
 
     return (
         <div className="md:grid grid-cols-[20rem_1fr] h-dvh overflow-hidden">

@@ -15,7 +15,7 @@ const Home = ({}: Props) => {
 
     if (user?.id) {
         console.log(`User ${user.name} logged in. Redirecting to chat...`);
-        return <Navigate to={'/chat'} replace />;
+        return <Navigate to={'/chat'} />;
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ const Home = ({}: Props) => {
 
         if (loggedUser?.id) {
             console.log(`User ${loggedUser.name} logged in`);
-            return <Navigate to={'/chat'} replace />;
+            return <Navigate to={'/chat'} />;
         }
     };
 

@@ -6,6 +6,8 @@ import MessageInput from './message-input';
 import moment from 'moment';
 import { Message } from '../types';
 import { useAuthContext } from '../context/auth-context';
+import ScrollProgress from './ui/scroll-progress';
+import { useSettingsContext } from '../context/settings-context';
 
 const formatMessageDate = (date: Date): string => {
     return moment(date).calendar(null, {
@@ -30,11 +32,16 @@ const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
 
 const ChatArea = () => {
     const { user } = useAuthContext();
+    const { settings } = useSettingsContext();
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { messages, sendMessage, isSending } = useChat(user);
 
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
+            {settings.scrollIndicator && (
+                <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
+            )}
+
             <ScrollArea ref={chatContainerRef} className="w-full px-2 overflow-y-auto">
                 <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-16">
                     {messages.map((msg, i) => (

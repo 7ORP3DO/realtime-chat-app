@@ -6,11 +6,12 @@ import { Button } from './ui/button';
 import { Save } from 'lucide-react';
 import { DropdownMenuSeparator } from './ui/dropdown-menu';
 import { useAuthContext } from '../context/auth-context';
+import { useSettingsContext } from '../context/settings-context';
 
 interface Props extends DialogProps {}
 
 const SettingsDialog = ({ open, onOpenChange }: Props) => {
-    const { logout } = useAuthContext();
+    const { settings, updateSetting } = useSettingsContext();
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -21,24 +22,40 @@ const SettingsDialog = ({ open, onOpenChange }: Props) => {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="flex items-center justify-between space-x-2">
-                        <Label htmlFor="dark">Dark Mode</Label>
-                        <Switch id="dark" defaultChecked={true} disabled />
+                        <Label htmlFor="auto-scroll">Auto Scroll</Label>
+                        <Switch
+                            id="auto-scroll"
+                            checked={settings['autoScroll']}
+                            onCheckedChange={e => updateSetting('autoScroll', e)}
+                        />
                     </div>
 
                     <div className="flex items-center justify-between space-x-2">
-                        <Label htmlFor="auto-scroll">Auto Scroll</Label>
-                        <Switch id="auto-scroll" />
+                        <Label htmlFor="scrollIndicator">Scroll Indicator</Label>
+                        <Switch
+                            id="scrollIndicator"
+                            checked={settings['scrollIndicator']}
+                            onCheckedChange={e => updateSetting('scrollIndicator', e)}
+                        />
                     </div>
 
                     {/* Profanity, Sound */}
                     <div className="flex items-center justify-between space-x-2">
                         <Label htmlFor="profanity-filter">Profanity Filter</Label>
-                        <Switch id="profanity-filter" />
+                        <Switch
+                            id="profanity-filter"
+                            checked={settings['profanityFilter']}
+                            onCheckedChange={e => updateSetting('profanityFilter', e)}
+                        />
                     </div>
 
                     <div className="flex items-center justify-between space-x-2">
                         <Label htmlFor="sound">Sound</Label>
-                        <Switch id="sound" />
+                        <Switch
+                            id="sound"
+                            checked={settings['soundEnabled']}
+                            onCheckedChange={e => updateSetting('soundEnabled', e)}
+                        />
                     </div>
                 </div>
                 {/* <DialogFooter>

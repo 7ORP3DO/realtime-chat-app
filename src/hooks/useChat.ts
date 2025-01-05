@@ -3,11 +3,14 @@ import { collection, query, orderBy, limit, onSnapshot, addDoc, serverTimestamp 
 import { Message, User } from '../types';
 import { db } from '../lib/firebase';
 import { reverse } from 'lodash';
+import { soundManager } from '../lib/sound';
+import { useSettingsContext } from '../context/settings-context';
 
 const useChat = (currentUser: User | null) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isSending, setIsSending] = useState(false);
+    const { settings } = useSettingsContext();
 
     useEffect(() => {
         const q = query(collection(db, 'messages'), orderBy('timestamp', 'desc'), limit(100));
@@ -18,6 +21,7 @@ const useChat = (currentUser: User | null) => {
                 const newMessages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Message[];
                 setMessages(reverse(newMessages));
                 setIsLoading(false);
+                if (settings.soundEnabled) soundManager.play('newMessage');
             },
             error => {
                 console.error('Error fetching messages:', error);

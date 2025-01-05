@@ -28,3 +28,11 @@ export interface Message {
     userName: User['name'];
     userCountry: User['country'];
 }
+
+
+export interface Settings {
+    autoScroll: boolean;
+    soundEnabled: boolean;
+    scrollIndicator: boolean;
+    profanityFilter: boolean;
+  }
