@@ -16,6 +16,8 @@ import {
 } from './context-menu';
 import { Copy } from 'lucide-react';
 
+import emojiRegex from 'emoji-regex';
+
 interface UserMessageProp extends Message {
     showName: boolean;
     isOwnMessage: boolean;
@@ -30,6 +32,11 @@ const linkOptions: Opts = {
     target: '_blank',
 };
 
+const isOnlyEmoji = (text: string) => {
+    const regex = emojiRegex();
+    const matches = [...text.matchAll(regex)];
+    return matches.length > 0 && matches.join('') === text;
+};
 interface UserContextMenuProps extends UserMessageProp {
     children: React.ReactNode;
 }
@@ -78,10 +85,11 @@ const UserContextMenu = ({ children, ...props }: UserContextMenuProps) => {
 const UserMessage = (props: UserMessageProp) => {
     const { id, timestamp, content, userName, showName, isOwnMessage, userCountry } = props;
 
+    const emojiOnly = isOnlyEmoji(content);
+
     return (
         <UserContextMenu key={id} {...props}>
             <div className="select-none">
-                {/* <span className="text-[10px] lowercase"> from India</span> */}
                 {showName && !isOwnMessage && (
                     <h4 className={cn(' mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize w-fit')}>
                         {userName}
@@ -101,12 +109,26 @@ const UserMessage = (props: UserMessageProp) => {
                         isOwnMessage && 'ml-auto rounded-br-sm min-w-6',
                         !isOwnMessage &&
                             'border pt-1 pb-0.5 border-neutral-700/50 from-neutral-800/90 to-neutral-900/90 text-foreground/90',
-                        isOwnMessage && 'py-2 chat-gradient'
+                        isOwnMessage && 'py-2 chat-gradient',
+
+                        emojiOnly && 'from-transparent to-transparent shadow-transparent border-none'
                     )}
                 >
-                    <p className="text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4">
-                        <Linkify options={linkOptions}>{content}</Linkify>
-                    </p>
+                    {emojiOnly ? (
+                        <p className="py-0.5">
+                            {/* @ts-ignore */}
+                            <em-emoji native={content} size={'2.5rem'} set="apple"></em-emoji>
+                        </p>
+                    ) : (
+                        <p
+                            className={cn(
+                                'text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4'
+                            )}
+                        >
+                            <Linkify options={linkOptions}>{content}</Linkify>
+                        </p>
+                    )}
+
                     {!isOwnMessage && (
                         <p className="mt-.5 text-muted-foreground text-[10px] text-right ">
                             {moment(timestamp?.toDate()).format('hh:mm A')}
