@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import { ScrollArea } from './ui/scroll-area';
 import useChat from '../hooks/useChat';
 import MessageBubble from './ui/message-bubble';
@@ -9,10 +9,9 @@ import { useAuthContext } from '../context/auth-context';
 import ScrollProgress from './ui/scroll-progress';
 import { useSettingsContext } from '../context/settings-context';
 import { Button } from './ui/button';
-import { HistoryIcon, LoaderCircle, RefreshCcw } from 'lucide-react';
+import { HistoryIcon, LoaderCircle } from 'lucide-react';
 import useTyping from '@/hooks/useTyping';
 import { cn } from '@/lib/utils';
-import { useScroll } from 'react-use';
 
 const formatMessageDate = (date: Date): string => {
     return moment(date).calendar(null, {
@@ -34,14 +33,16 @@ const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     </div>
 );
 
-const LoadMore = () => (
-    <div className="flex items-center justify-center my-6">
+const LoadMore = ({ onClick, isLoading }: { onClick?: () => void; isLoading: boolean }) => (
+    <div className="flex items-center justify-center my-1 mb-5">
         {/* <Button variant={'secondary'} className="text-muted-foreground" size={'sm'} onClick={onClick} disabled={isLoading}>
             {isLoading ? <RefreshCcw className="size-5 animate-spin" /> : <HistoryIcon className="size-5" />}
             Load older messages
         </Button> */}
 
-        <RefreshCcw className="size-5 animate-spin" />
+        <Button variant={'ghost'} size={'icon'} disabled={isLoading} onClick={onClick} asChild>
+            <HistoryIcon  className={cn('size-8 text-muted-foreground', isLoading && 'animate-spin')} />
+        </Button>
     </div>
 );
 
@@ -71,14 +72,14 @@ const ChatArea = () => {
                 <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
             )}
 
-            {/* {isLoading && messages.length < 2 && <MessageLoader />} */}
+            {isLoading && messages.length < 2 && <MessageLoader />}
 
             <ScrollArea
                 ref={chatContainerRef}
                 className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length == 0 && 'hidden')}
             >
                 <div className="grid gap-1 max-w-screen-md mx-auto mb-60 mt-6">
-                    {isLoading && <LoadMore />}
+                    {hasMore && <LoadMore onClick={loadMore} isLoading={isLoading} />}
 
                     {messages.map((msg, i) => (
                         <Fragment key={msg.id}>
@@ -96,7 +97,7 @@ const ChatArea = () => {
                             <div
                                 className={cn(
                                     'border rounded-md px-2.5 py-1 text-xs md:text-sm ',
-                                    'bg-gradient-to-b border-purple-500 text-purple-500 from-purple-500/20 to-purple-500/30'
+                                    'bg-gradient-to-b border-green-500 text-green-500 from-green-500/20 to-green-500/30'
                                 )}
                             >
                                 <p>{typingUsers.map(u => u.name).join(', ')} is typing...</p>
