@@ -30,7 +30,7 @@ const fetchCountryCode = async (): Promise<string | null> => {
 const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isInitializing, setIsInitializing] = useState<boolean>(false); // Specifically for creating a new user
+    const [isInitializing, setIsInitializing] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -38,16 +38,16 @@ const useAuth = () => {
             const savedUserId = Cookies.get('userId');
             const savedName = Cookies.get('userName');
 
-            if (savedUserId && savedName) {
-                await checkExistingUser(savedName);
-            }
-            setIsLoading(false); // End loading after initial check
+            if (savedUserId && savedName) await checkExistingUser(savedName);
+            setIsLoading(false);
         })();
     }, []);
 
     const updatePresence = (userId: string, userName: string) => {
         try {
             const userStatusRef = ref(rtdb, `status/${userId}`);
+            const typingStatusRef = ref(rtdb, `typing/${userId}`);
+
             const presenceData = {
                 name: userName,
                 isOnline: true,
@@ -55,9 +55,15 @@ const useAuth = () => {
             };
 
             set(userStatusRef, presenceData);
+
             onDisconnect(userStatusRef).update({
                 isOnline: false,
                 lastOnline: serverTimestampRtdb(),
+            });
+
+            onDisconnect(typingStatusRef).update({
+                isTyping: false,
+                updatedAt: serverTimestampRtdb(),
             });
         } catch (error) {
             console.error('Error updating presence:', error);
@@ -94,7 +100,7 @@ const useAuth = () => {
     };
 
     const initializeUser = async (name: string): Promise<User | null> => {
-        setIsInitializing(true); // Start initialization
+        setIsInitializing(true);
         setError(null);
 
         try {
@@ -130,7 +136,7 @@ const useAuth = () => {
             setError('Failed to initialize user');
             return null;
         } finally {
-            setIsInitializing(false); // End initialization
+            setIsInitializing(false);
         }
     };
 

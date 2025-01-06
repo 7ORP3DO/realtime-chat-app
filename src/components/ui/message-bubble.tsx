@@ -82,7 +82,7 @@ const UserContextMenu = ({ children, ...props }: UserContextMenuProps) => {
     );
 };
 
-const UserMessage = (props: UserMessageProp) => {
+const MessageBubble = (props: UserMessageProp) => {
     const { id, timestamp, content, userName, showName, isOwnMessage, userCountry } = props;
 
     const emojiOnly = isOnlyEmoji(content);
@@ -140,4 +140,4 @@ const UserMessage = (props: UserMessageProp) => {
     );
 };
 
-export default UserMessage;
+export default MessageBubble;

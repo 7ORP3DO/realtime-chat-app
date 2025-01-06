@@ -15,8 +15,14 @@ export interface UserStatus {
     id: User['id'];
     name: User['name'];
     isOnline: boolean;
-    isTyping?: boolean;
     lastOnline: FirebaseTimestamp;
+}
+
+export interface TypingStatus {
+    id: User['id'];
+    name: User['name'];
+    isTyping: boolean;
+    updatedAt: FirebaseTimestamp;
 }
 
 export interface Message {
@@ -29,10 +35,9 @@ export interface Message {
     userCountry: User['country'];
 }
 
-
 export interface Settings {
     autoScroll: boolean;
     soundEnabled: boolean;
     scrollIndicator: boolean;
     profanityFilter: boolean;
-  }
+}

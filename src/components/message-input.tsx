@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { Loader2Icon, Send } from 'lucide-react';
 import { Input } from './ui/input';
+import { useDebounce } from 'react-use';
+import { useAuthContext } from '@/context/auth-context';
+import { updateTypingStatus } from '@/lib/chat';
 
 type Props = {
     onSubmit: (e: string) => void;
@@ -9,28 +12,57 @@ type Props = {
 };
 
 const MessageInput = ({ onSubmit, isSending }: Props) => {
-    // const inputRef = useRef<HTMLTextAreaElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const { user } = useAuthContext();
+    const [message, setMessage] = useState('');
+
+    if (!user) return <></>;
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (isSending) return;
+        setMessage(msg => msg.trim());
 
-        const message = inputRef.current?.value.trim();
+        if (isSending) return;
         if (!message) return;
 
         onSubmit(message);
+        updateTypingStatus(false, user);
     };
 
     useEffect(() => {
-        if (!isSending && inputRef.current) inputRef.current.value = '';
+        if (!isSending && message) setMessage('');
     }, [isSending]);
+
+    const [] = useDebounce(() => updateTypingStatus(false, user), 1400, [message]);
 
     return (
         <div className="p-4 border-t border-border bg-card absolute w-full bottom-0 left-0">
             <div className="absolute w-full top-0 -translate-y-full z-10 h-10 left-0 bg-gradient-to-b from-transparent to-card/70 border-b"></div>
 
             <form onSubmit={handleSubmit} className="flex gap-2  max-w-screen-md mx-auto group">
+                <Input
+                    value={message}
+                    name="message"
+                    placeholder="Write your message here..."
+                    className="bg-muted/75"
+                    minLength={1}
+                    max={160}
+                    maxLength={160}
+                    required
+                    disabled={isSending}
+                    onChange={e => {
+                        setMessage(e.target.value);
+                        updateTypingStatus(true, user);
+                    }}
+                ></Input>
+
+                <Button
+                    size="icon"
+                    className="chat-gradient !bg-gradient-to-br !bg-local text-white rounded-lg shrink-0 group-invalid:grayscale group-invalid:cursor-not-allowed transition-all duration-500"
+                    disabled={isSending}
+                >
+                    {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-5" />}
+                </Button>
+
                 {/* <Textarea
                     ref={inputRef}
                     rows={1}
@@ -50,26 +82,6 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
                 >
                     {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-4" />}
                 </Button> */}
-
-                <Input
-                    ref={inputRef}
-                    name="message"
-                    placeholder="Write your message here..."
-                    className="bg-muted/75"
-                    minLength={1}
-                    max={160}
-                    maxLength={160}
-                    required
-                    disabled={isSending}
-                ></Input>
-
-                <Button
-                    size="icon"
-                    className="chat-gradient !bg-gradient-to-br !bg-local text-white rounded-lg shrink-0 group-invalid:grayscale group-invalid:cursor-not-allowed transition-all duration-500"
-                    disabled={isSending}
-                >
-                    {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-5" />}
-                </Button>
             </form>
         </div>
     );

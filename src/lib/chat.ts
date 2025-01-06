@@ -1,9 +1,10 @@
-import { db } from '../lib/firebase';
-import { Message, User } from '../types';
+import { ref, serverTimestamp as serverTimestampRealtime, set } from 'firebase/database';
+import { db, rtdb } from '../lib/firebase';
+import { Message, TypingStatus, User } from '../types';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { startAfter, addDoc, serverTimestamp, QueryDocumentSnapshot, onSnapshot } from 'firebase/firestore';
 
-const INITIAL_MESSAGES = 20;
+const INITIAL_MESSAGES = 30;
 const MESSAGES_PER_PAGE = 2;
 
 const loadInitialMessages = async () => {
@@ -61,4 +62,21 @@ const sendMessage = async (content: string, currentUser: User) => {
     return addDoc(collection(db, 'messages'), newMessage);
 };
 
-export { loadInitialMessages, loadMoreMessages, subscribeToNewMessages, sendMessage };
+const updateTypingStatus = (isTyping: boolean, user: User) => {
+    try {
+        const typingStatusRef = ref(rtdb, `typing/${user.id}`);
+
+        const typingData: TypingStatus = {
+            id: user.id,
+            name: user.name,
+            isTyping,
+            updatedAt: serverTimestampRealtime(),
+        };
+
+        set(typingStatusRef, typingData);
+    } catch (error) {
+        console.error('Error updating typing:', error);
+    }
+};
+
+export { loadInitialMessages, loadMoreMessages, subscribeToNewMessages, sendMessage, updateTypingStatus };
