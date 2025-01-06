@@ -26,7 +26,6 @@ const shouldShowDate = (currentMessage: Message, previousMessage?: Message): boo
 };
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
-    // <div className="border bg-gradient-to-b border-zinc-800 text-zinc-400 from-zinc-900 to-zinc-800/80 w-fit mx-auto text-xs md:text-sm py-1 px-2 rounded-md mt-5 mb-3">
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
         {formatMessageDate(date?.toDate())}
     </div>
@@ -49,7 +48,9 @@ const ChatArea = () => {
 
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
-            {settings.scrollIndicator && <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />}
+            {settings.scrollIndicator && messages.length > 0 && (
+                <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
+            )}
 
             {isLoading && messages.length < 2 && (
                 <div className="w-full h-[80vh] flex flex-col gap-2 items-center justify-center text-muted-foreground/75">

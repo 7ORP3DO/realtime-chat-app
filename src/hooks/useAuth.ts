@@ -30,6 +30,7 @@ const fetchCountryCode = async (): Promise<string | null> => {
 const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isInitializing, setIsInitializing] = useState<boolean>(false); // Specifically for creating a new user
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -37,8 +38,10 @@ const useAuth = () => {
             const savedUserId = Cookies.get('userId');
             const savedName = Cookies.get('userName');
 
-            if (savedUserId && savedName) await checkExistingUser(savedName);
-            else setIsLoading(false);
+            if (savedUserId && savedName) {
+                await checkExistingUser(savedName);
+            }
+            setIsLoading(false); // End loading after initial check
         })();
     }, []);
 
@@ -91,7 +94,7 @@ const useAuth = () => {
     };
 
     const initializeUser = async (name: string): Promise<User | null> => {
-        setIsLoading(true);
+        setIsInitializing(true); // Start initialization
         setError(null);
 
         try {
@@ -127,7 +130,7 @@ const useAuth = () => {
             setError('Failed to initialize user');
             return null;
         } finally {
-            setIsLoading(false);
+            setIsInitializing(false); // End initialization
         }
     };
 
@@ -137,7 +140,7 @@ const useAuth = () => {
         setUser(null);
     };
 
-    return { user, isLoading, error, initializeUser, logout };
+    return { user, isLoading, isInitializing, error, initializeUser, logout };
 };
 
 export default useAuth;

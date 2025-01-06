@@ -1,5 +1,4 @@
 import { ArrowRight, Loader2 } from 'lucide-react';
-import { Navigate } from 'react-router';
 import ShineBorder from '../components/ui/shine-border';
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -7,29 +6,16 @@ import { Button } from '../components/ui/button';
 import AnimatedGridPattern from '../components/ui/animated-grid-pattern';
 import AnimatedShinyText from '../components/ui/animated-shiny-text';
 import { useAuthContext } from '../context/auth-context';
-import { useState } from 'react';
 
 type Props = {};
 
 const Home = ({}: Props) => {
-    const { initializeUser, user } = useAuthContext();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    if (user?.id) {
-        console.log(`User ${user.name} logged in. Redirecting to chat...`);
-        return <Navigate to={'/chat'} />;
-    }
+    const { initializeUser, isInitializing } = useAuthContext();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault;
-        setIsSubmitting(true);
         const name = (e.target as any).name.value;
-        await initializeUser(name);
-        setIsSubmitting(false);
-        // if (loggedUser?.id) {
-        //     console.log(`User ${loggedUser.name} logged in`);
-        //     return <Navigate to={'/chat'} />;
-        // }
+        initializeUser(name);
     };
 
     const LoginCard = () => (
@@ -90,7 +76,7 @@ const Home = ({}: Props) => {
                     </p>
 
                     <div data-aos="fade-up" data-aos-delay="800">
-                        {isSubmitting ? (
+                        {isInitializing ? (
                             <div className="mt-24 h-40 flex items-center justify-center">
                                 <Loader2 className="size-14 animate-spin " />
                             </div>
