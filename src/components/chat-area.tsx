@@ -59,7 +59,7 @@ const ChatArea = () => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { messages, sendMessage, isSending, isLoading, hasMore, loadMore } = useChat(user);
 
-    const { y: scrollY } = useScroll(chatContainerRef);
+    // const { y: scrollY } = useScroll(chatContainerRef);
 
     // useEffect(() => {
     //     if (!isLoading && hasMore && scrollY < 200 && scrollY !== 0) loadMore();
@@ -77,7 +77,7 @@ const ChatArea = () => {
                 ref={chatContainerRef}
                 className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length == 0 && 'hidden')}
             >
-                <div className="grid gap-1 max-w-screen-md mx-auto mb-96 mt-6">
+                <div className="grid gap-1 max-w-screen-md mx-auto mb-60 mt-6">
                     {isLoading && <LoadMore />}
 
                     {messages.map((msg, i) => (
