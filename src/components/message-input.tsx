@@ -32,7 +32,7 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
         if (!isSending && message) setMessage('');
     }, [isSending]);
 
-    const [] = useDebounce(() => updateTypingStatus(false, user), 1400, [message]);
+    const [] = useDebounce(() => updateTypingStatus(false, user), 900, [message]);
 
     return (
         <div className="p-4 border-t border-border bg-card absolute w-full bottom-0 left-0">

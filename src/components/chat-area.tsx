@@ -4,14 +4,16 @@ import useChat from '../hooks/useChat';
 import MessageBubble from './ui/message-bubble';
 import MessageInput from './message-input';
 import moment from 'moment';
-import { Message } from '../types';
+import { Message, TypingStatus } from '../types';
 import { useAuthContext } from '../context/auth-context';
 import ScrollProgress from './ui/scroll-progress';
 import { useSettingsContext } from '../context/settings-context';
 import { Button } from './ui/button';
-import { HistoryIcon, LoaderCircle } from 'lucide-react';
+import { HistoryIcon, LoaderCircle, RefreshCcw } from 'lucide-react';
 import useTyping from '@/hooks/useTyping';
 import { cn } from '@/lib/utils';
+import { AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 
 const formatMessageDate = (date: Date): string => {
     return moment(date).calendar(null, {
@@ -34,16 +36,14 @@ const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
 );
 
 const LoadMore = ({ onClick, isLoading }: { onClick?: () => void; isLoading: boolean }) => (
-    <div className="flex items-center justify-center my-1 mb-5">
-        {/* <Button variant={'secondary'} className="text-muted-foreground" size={'sm'} onClick={onClick} disabled={isLoading}>
-            {isLoading ? <RefreshCcw className="size-5 animate-spin" /> : <HistoryIcon className="size-5" />}
-            Load older messages
-        </Button> */}
-
-        <Button variant={'ghost'} size={'icon'} disabled={isLoading} onClick={onClick} asChild>
-            <HistoryIcon  className={cn('size-8 text-muted-foreground', isLoading && 'animate-spin')} />
-        </Button>
-    </div>
+    <button
+        className="flex gap-1 items-center flex-col justify-center my-1 mb-5 text-muted-foreground/75 text-sm"
+        disabled={isLoading}
+        onClick={onClick}
+    >
+        <RefreshCcw className={cn('!size-6', isLoading && 'animate-spin')} />
+        Load older messages
+    </button>
 );
 
 const MessageLoader = () => (
@@ -53,18 +53,31 @@ const MessageLoader = () => (
     </div>
 );
 
+const TypingBubble = ({ typingUsers }: { typingUsers: TypingStatus[] }) => (
+    <motion.div
+        key={'typing-bubble'}
+        exit={{ opacity: 0, scale: 0, x: '-50%' }}
+        initial={{ opacity: 0, scale: 0, x: '-50%' }}
+        animate={{ opacity: 1, scale: 1, x: '-50%' }}
+        className="absolute bg-background top-4 z-40 w-fit -translate-x-1/2 left-1/2 pointer-events-none"
+    >
+        <div
+            className={cn(
+                'border rounded-md px-2.5 py-[3px] text-xs  ',
+                'bg-gradient-to-b border-green-600 text-green-500 from-green-500/20 to-green-500/30'
+            )}
+        >
+            <p className="">{typingUsers.map(u => u.name).join(', ')} is typing...</p>
+        </div>
+    </motion.div>
+);
+
 const ChatArea = () => {
     const { user } = useAuthContext();
     const { typingUsers } = useTyping();
     const { settings } = useSettingsContext();
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { messages, sendMessage, isSending, isLoading, hasMore, loadMore } = useChat(user);
-
-    // const { y: scrollY } = useScroll(chatContainerRef);
-
-    // useEffect(() => {
-    //     if (!isLoading && hasMore && scrollY < 200 && scrollY !== 0) loadMore();
-    // }, [scrollY, isLoading]);
 
     return (
         <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
@@ -74,7 +87,7 @@ const ChatArea = () => {
 
             {isLoading && messages.length < 2 && <MessageLoader />}
 
-            <ScrollArea
+            <div
                 ref={chatContainerRef}
                 className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length == 0 && 'hidden')}
             >
@@ -92,20 +105,9 @@ const ChatArea = () => {
                             />
                         </Fragment>
                     ))}
-                    {typingUsers.length > 0 && (
-                        <div className="absolute bg-background top-4 z-40 w-fit -translate-x-1/2 left-1/2">
-                            <div
-                                className={cn(
-                                    'border rounded-md px-2.5 py-1 text-xs md:text-sm ',
-                                    'bg-gradient-to-b border-green-500 text-green-500 from-green-500/20 to-green-500/30'
-                                )}
-                            >
-                                <p>{typingUsers.map(u => u.name).join(', ')} is typing...</p>
-                            </div>
-                        </div>
-                    )}
+                    <AnimatePresence>{typingUsers.length > 0 && <TypingBubble typingUsers={typingUsers} />}</AnimatePresence>
                 </div>
-            </ScrollArea>
+            </div>
 
             <MessageInput onSubmit={sendMessage} isSending={isSending} />
         </div>
