@@ -58,12 +58,27 @@ const TypingBubble = ({ typingUsers }: { typingUsers: TypingStatus[] }) => (
             className={cn(
                 'border rounded-md px-2.5 py-[3px] text-xs  ',
                 'bg-gradient-to-b border-green-600 text-green-500 from-green-500/20 to-green-500/30'
+                // "bg-gradient-to-b border-purple-500 text-purple-400 from-purple-500/20 to-purple-500/30"
             )}
         >
             <p className="">{typingUsers.map(u => u.name).join(', ')} is typing...</p>
         </div>
     </motion.div>
 );
+
+{
+    /* <div
+className={cn(
+    ' text-xs rounded-md p-[1px]',
+    // 'bg-gradient-to-b border-green-600 text-green-500 from-green-500/20 to-green-500/30'
+    'gradient'
+)}
+>
+<p className="rounded-md px-2.5 py-[3px] bg-black">
+    <span className='text-gradient'>{typingUsers.map(u => u.name).join(', ')} is typing...</span>
+</p>
+</div> */
+}
 
 const ChatArea = () => {
     const { user } = useAuthContext();

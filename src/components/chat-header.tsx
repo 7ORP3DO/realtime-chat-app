@@ -52,7 +52,10 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ setShowUsers, showUsers }) => {
     return (
         <header className="px-4 py-1 border-b bg-card shadow-md flex gap-2.5 items-center justify-between h-12 z-50 sticky top-0">
             <OnlineCountBadge onClick={handleToggleUsers} showUsers={showUsers} />
-            <h1 className="text-gradient mx-auto text-xl font-bold w-fit translate-x-1/3 md:translate-x-full">Chat World</h1>
+
+            <h1 className="text-xl font-bold absolute inset-0 grid place-items-center pointer-events-none">
+                <span className='text-gradient'>Chat World</span>
+            </h1>
 
             <a
                 href="#"
