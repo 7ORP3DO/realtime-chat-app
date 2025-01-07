@@ -15,7 +15,7 @@ export interface UserStatus {
     id: User['id'];
     name: User['name'];
     isOnline: boolean;
-    lastOnline: FirebaseTimestamp;
+    updatedAt: FirebaseTimestamp;
 }
 
 export interface TypingStatus {

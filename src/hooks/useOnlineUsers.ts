@@ -13,7 +13,7 @@ const useOnlineUsers = ({ limit = 25 }: UseOnlineUsersOptions = {}) => {
     const [users, setUsers] = useState<UserStatus[]>([]);
 
     useEffect(() => {
-        const userQuery = query(ref(rtdb, 'status'), orderByChild('lastOnline'), limitToLast(limit));
+        const userQuery = query(ref(rtdb, 'userStatus'), orderByChild('updatedAt'), limitToLast(limit));
 
         const unsubscribe = onValue(userQuery, snapshot => {
             const usersData: UserStatus[] = [];

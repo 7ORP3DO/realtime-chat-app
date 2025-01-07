@@ -31,7 +31,7 @@ const Home = ({}: Props) => {
                     <CardDescription>Enter your name to join the chat</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Input name="name" placeholder="Enter your name" className="bg-muted/50" />
+                    <Input name="name" placeholder="Enter your name" className="bg-muted/50" minLength={2} maxLength={30} />
                 </CardContent>
                 <CardFooter>
                     <Button className="ml-auto">

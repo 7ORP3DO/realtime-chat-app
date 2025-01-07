@@ -64,10 +64,9 @@ const sendMessage = async (content: string, currentUser: User) => {
 
 const updateTypingStatus = (isTyping: boolean, user: User) => {
     try {
-        const typingStatusRef = ref(rtdb, `typing/${user.id}`);
+        const typingStatusRef = ref(rtdb, `typingStatus/${user.id}`);
 
-        const typingData: TypingStatus = {
-            id: user.id,
+        const typingData: Partial<TypingStatus> = {
             name: user.name,
             isTyping,
             updatedAt: serverTimestampRealtime(),

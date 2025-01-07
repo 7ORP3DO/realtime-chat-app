@@ -6,7 +6,7 @@ const useOnlineCount = () => {
     const [onlineCount, setOnlineCount] = useState<number>(0);
 
     useEffect(() => {
-        const countQuery = query(ref(rtdb, 'status'), orderByChild('isOnline'), equalTo(true));
+        const countQuery = query(ref(rtdb, 'userStatus'), orderByChild('isOnline'), equalTo(true));
 
         const unsubscribe = onValue(
             countQuery,

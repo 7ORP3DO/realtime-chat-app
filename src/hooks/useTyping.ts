@@ -14,7 +14,7 @@ const useTyping = () => {
     }, [typingUsers.length]);
 
     useEffect(() => {
-        const typingQuery = query(ref(rtdb, 'typing'), orderByChild('isTyping'), equalTo(true));
+        const typingQuery = query(ref(rtdb, 'typingStatus'), orderByChild('isTyping'), equalTo(true));
 
         const unsubscribe = onValue(typingQuery, snapshot => {
             const typingData: TypingStatus[] = [];

@@ -40,23 +40,23 @@ const useAuth = () => {
 
     const updatePresence = (userId: string, userName: string) => {
         try {
-            const userStatusRef = ref(rtdb, `status/${userId}`);
-            const typingStatusRef = ref(rtdb, `typing/${userId}`);
+            const userStatusRef = ref(rtdb, `userStatus/${userId}`);
+            const typingStatusRef = ref(rtdb, `typingStatus/${userId}`);
 
-            const presenceData = {
+            set(userStatusRef, {
                 name: userName,
                 isOnline: true,
-                lastOnline: serverTimestampRtdb(),
-            };
-
-            set(userStatusRef, presenceData);
-
-            onDisconnect(userStatusRef).update({
-                isOnline: false,
-                lastOnline: serverTimestampRtdb(),
+                updatedAt: serverTimestampRtdb(),
             });
 
-            onDisconnect(typingStatusRef).update({
+            onDisconnect(userStatusRef).set({
+                name: userName,
+                isOnline: false,
+                updatedAt: serverTimestampRtdb(),
+            });
+
+            onDisconnect(typingStatusRef).set({
+                name: userName,
                 isTyping: false,
                 updatedAt: serverTimestampRtdb(),
             });

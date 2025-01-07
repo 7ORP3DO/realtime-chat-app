@@ -1,0 +1,31 @@
+{
+  "rules": {
+    ".read": "true",
+
+    "userStatus": {
+      ".indexOn": ["isOnline", "updatedAt"],
+      "$userId": {
+        ".read": "true",
+        ".write": "newData.hasChildren(['name', 'isOnline', 'updatedAt']) &&
+                   newData.child('name').isString() && 
+                   newData.child('name').val().length >= 2 && 
+                   newData.child('name').val().length <= 50 &&
+                   newData.child('isOnline').isBoolean() &&
+                   newData.child('updatedAt').val() === now"
+      }
+    },
+
+    "typingStatus": {
+      ".indexOn": ["isTyping"],
+      "$userId": {
+        ".read": "true",
+        ".write": "newData.hasChildren(['name', 'isTyping', 'updatedAt']) &&
+                   newData.child('name').isString() && 
+                   newData.child('name').val().length >= 2 && 
+                   newData.child('name').val().length <= 50 &&
+                   newData.child('isTyping').isBoolean() &&
+                   newData.child('updatedAt').val() === now"
+      }
+    }
+  }
+}

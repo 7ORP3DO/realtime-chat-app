@@ -19,9 +19,7 @@ const UsersList = ({ showUsers }: Props) => {
             )}
         >
             <ScrollArea className="w-full">
-                <h2 className="md:hidden mt-16 text-center text-lg font-semibold text-muted-foreground px-4">
-                    Online Users
-                </h2>
+                <h2 className="md:hidden mt-16 text-center text-lg font-semibold text-muted-foreground px-4">Online Users</h2>
 
                 <div className="space-y-3 px-4 py-6">
                     {[...users].map(user => (
@@ -32,19 +30,14 @@ const UsersList = ({ showUsers }: Props) => {
                             }
                         >
                             <div>
-                                <h4 className="capitalize">{user.name}</h4>
+                                <h4 className="capitalize w-full">{user.name}</h4>
                                 <p className="text-xs mt-0.5 text-muted-foreground">
                                     <b>Last Seen: </b>
-                                    {moment(user.lastOnline).fromNow()}
+                                    {user.isOnline ? 'Online' : moment(user.updatedAt).fromNow()}
                                 </p>
                             </div>
                             <div>
-                                <p
-                                    className={cn(
-                                        'size-2.5 mx-auto rounded-full ',
-                                        user.isOnline ? 'bg-green-500' : 'bg-red-500'
-                                    )}
-                                ></p>
+                                <p className={cn('size-2.5 mx-auto rounded-full ', user.isOnline ? 'bg-green-500' : 'bg-red-500')}></p>
                             </div>
                         </div>
                     ))}
