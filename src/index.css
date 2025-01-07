@@ -77,6 +77,10 @@
         @apply bg-background text-foreground;
         font-family: 'Nunito', serif;
     }
+
+    html {
+        scroll-behavior: smooth;
+    }
 }
 
 @layer utilities {

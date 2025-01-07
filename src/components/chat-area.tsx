@@ -8,7 +8,6 @@ import { Message, TypingStatus } from '../types';
 import { useAuthContext } from '../context/auth-context';
 import ScrollProgress from './ui/scroll-progress';
 import { useSettingsContext } from '../context/settings-context';
-import { Button } from './ui/button';
 import { HistoryIcon, LoaderCircle, RefreshCcw } from 'lucide-react';
 import useTyping from '@/hooks/useTyping';
 import { cn } from '@/lib/utils';
@@ -37,7 +36,10 @@ const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
 
 const LoadMore = ({ onClick, isLoading }: { onClick?: () => void; isLoading: boolean }) => (
     <button
-        className="flex gap-1 items-center flex-col justify-center my-1 mb-5 text-muted-foreground/75 text-sm"
+        className={cn(
+            'flex gap-1 items-center flex-col justify-center my-1 mb-5 text-muted-foreground/75 text-sm',
+            isLoading && 'opacity-50'
+        )}
         disabled={isLoading}
         onClick={onClick}
     >
