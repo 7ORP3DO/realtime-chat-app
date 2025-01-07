@@ -8,20 +8,11 @@ import { Message, TypingStatus } from '../types';
 import { useAuthContext } from '../context/auth-context';
 import ScrollProgress from './ui/scroll-progress';
 import { useSettingsContext } from '../context/settings-context';
-import { HistoryIcon, LoaderCircle, RefreshCcw } from 'lucide-react';
+import { LoaderCircle, RefreshCcw } from 'lucide-react';
 import useTyping from '@/hooks/useTyping';
-import { cn } from '@/lib/utils';
+import { cn, formatDateCalendar } from '@/lib/utils';
 import { AnimatePresence } from 'motion/react';
 import { motion } from 'motion/react';
-
-const formatMessageDate = (date: Date): string => {
-    return moment(date).calendar(null, {
-        sameDay: '[Today]',
-        lastDay: '[Yesterday]',
-        lastWeek: 'dddd',
-        sameElse: 'MMM D, YYYY',
-    });
-};
 
 const shouldShowDate = (currentMessage: Message, previousMessage?: Message): boolean => {
     if (!previousMessage) return true;
@@ -30,7 +21,7 @@ const shouldShowDate = (currentMessage: Message, previousMessage?: Message): boo
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
-        {formatMessageDate(date?.toDate())}
+        {formatDateCalendar(date?.toDate())}
     </div>
 );
 
@@ -89,7 +80,7 @@ const ChatArea = () => {
 
             {isLoading && messages.length < 2 && <MessageLoader />}
 
-            <div
+            <ScrollArea
                 ref={chatContainerRef}
                 className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length == 0 && 'hidden')}
             >
@@ -109,7 +100,7 @@ const ChatArea = () => {
                     ))}
                     <AnimatePresence>{typingUsers.length > 0 && <TypingBubble typingUsers={typingUsers} />}</AnimatePresence>
                 </div>
-            </div>
+            </ScrollArea>
 
             <MessageInput onSubmit={sendMessage} isSending={isSending} />
         </div>
