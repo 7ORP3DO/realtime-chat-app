@@ -5,8 +5,13 @@ import { createRoot } from 'react-dom/client';
 import { lazy, StrictMode, Suspense } from 'react';
 import { SettingsProvider } from './context/settings-context.tsx';
 import { AnimatePresence } from 'motion/react';
+import { DefaultToastOptions, Toaster } from 'react-hot-toast';
 
 const AuthProvider = lazy(() => import('./context/auth-context').then(module => ({ default: module.AuthProvider })));
+
+const toastOptions: DefaultToastOptions = {
+    success: {},
+};
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -15,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
                 <SettingsProvider>
                     <AnimatePresence>
                         <App />
+                        <Toaster toastOptions={toastOptions} />
                     </AnimatePresence>
                 </SettingsProvider>
             </AuthProvider>

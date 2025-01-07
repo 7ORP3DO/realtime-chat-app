@@ -1,0 +1,36 @@
+rules_version = '2';
+
+service cloud.firestore {
+    match /databases/{database}/documents {
+
+        function isValidString(field, minSize, maxSize) {
+            return field is string && field.size() >= minSize && field.size() <= maxSize;
+        }
+
+        function hasRequiredFields(resourceData, fields) {
+            return resourceData.keys().hasAll(fields);
+        }
+
+        match /users/{userId} {
+            allow read;
+
+            allow create: if hasRequiredFields(request.resource.data, ['id', 'name', 'userAgent', 'country', 'createdAt'])
+                && request.resource.data.id == userId
+                && isValidString(request.resource.data.name, 2, 50)
+                && isValidString(request.resource.data.userAgent, 1, 500)
+                && isValidString(request.resource.data.country, 2, 20)
+                && request.resource.data.createdAt == request.time;
+        }
+
+        match /messages/{messageId} {
+            allow read;
+
+            allow create: if hasRequiredFields(request.resource.data, ['content', 'userId', 'userName', 'userCountry', 'timestamp'])
+                && isValidString(request.resource.data.content, 1, 255)
+                && isValidString(request.resource.data.userId, 1, 500) 
+                && isValidString(request.resource.data.userName, 2, 50)
+                && isValidString(request.resource.data.userCountry, 2, 20)
+                && request.resource.data.timestamp == request.time;
+        }
+    }
+}

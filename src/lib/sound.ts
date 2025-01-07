@@ -1,4 +1,4 @@
-type SoundType = 'newMessage';
+type SoundType = 'newMessage' | 'typing';
 
 class SoundManager {
     private readonly sounds: Record<SoundType, HTMLAudioElement>;
@@ -6,9 +6,11 @@ class SoundManager {
     constructor() {
         this.sounds = {
             newMessage: new Audio('/sounds/new.mp3'),
+            typing: new Audio('/sounds/typing.mp3'),
         };
 
         this.sounds.newMessage.volume = 0.8;
+        this.sounds.typing.volume = 0.6;
     }
 
     play(type: SoundType): void {

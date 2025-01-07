@@ -5,21 +5,16 @@ import { ref, set, onDisconnect, serverTimestamp as serverTimestampRtdb } from '
 import { User } from '../types';
 import { db, rtdb } from '../lib/firebase';
 
-interface IpInfoResponse {
-    country: string;
-}
-
-const IPINFO_TOKEN = '57cb832fc1de92';
 const COOKIE_EXPIRY_DAYS = 7;
 
 const getUserAgent = () => encodeURIComponent(navigator.userAgent);
 
-const fetchCountryCode = async (): Promise<string | null> => {
+const fetchCountryCode = async () => {
     try {
-        const response = await fetch(`https://ipinfo.io/json?token=${IPINFO_TOKEN}`);
+        const response = await fetch(`https://ipinfo.io/json?token=${import.meta.env.VITE_IPINFO_TOKEN}`);
         if (!response.ok) throw new Error('Failed to fetch country info');
 
-        const data: IpInfoResponse = await response.json();
+        const data: { country: string } = await response.json();
         return data.country as User['country'];
     } catch (error) {
         console.error('Error fetching country code:', error);

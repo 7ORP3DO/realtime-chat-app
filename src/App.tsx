@@ -22,12 +22,13 @@ function App() {
 
     if (isLoading && !isInitializing) return <Loader />;
 
-    if (user)
+    if (user) {
         return (
             <Suspense fallback={<Loader />}>
                 <Chat />
             </Suspense>
         );
+    }
 
     return <Home />;
 }

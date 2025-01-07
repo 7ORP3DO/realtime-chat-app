@@ -2,9 +2,16 @@ import { useState, useEffect } from 'react';
 import { onValue, query, ref, orderByChild, equalTo } from 'firebase/database';
 import { rtdb } from '../lib/firebase';
 import { TypingStatus } from '@/types';
+import { soundManager } from '@/lib/sound';
+import { useSettingsContext } from '@/context/settings-context';
 
 const useTyping = () => {
+    const { settings } = useSettingsContext();
     const [typingUsers, setTypingUsers] = useState<TypingStatus[]>([]);
+
+    useEffect(() => {
+        if (typingUsers.length > 0 && settings.soundEnabled) soundManager.play('typing');
+    }, [typingUsers.length]);
 
     useEffect(() => {
         const typingQuery = query(ref(rtdb, 'typing'), orderByChild('isTyping'), equalTo(true));
