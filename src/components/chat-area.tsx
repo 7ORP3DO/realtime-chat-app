@@ -1,19 +1,19 @@
 import moment from 'moment';
+import useChat from '@/hooks/useChat';
 import LoadMore from './load-more-btn';
-import useChat from '../hooks/useChat';
-import TypingBubble from './typing-bubble';
-import { Fragment, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import useTyping from '@/hooks/useTyping';
 import MessageInput from './message-input';
+import TypingBubble from './typing-bubble';
 import { LoaderCircle } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
 import MessageBubble from './ui/message-bubble';
 import ScrollProgress from './ui/scroll-progress';
-import { useAuthContext } from '../context/auth-context';
-import { useSettingsContext } from '../context/settings-context';
 import { cn, formatDateCalendar } from '@/lib/utils';
-import { Message } from '@/types';
+import { useAuthContext } from '@/context/auth-context';
+import { useSettingsContext } from '@/context/settings-context';
 
+import type { Message } from '@/types';
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
@@ -39,6 +39,16 @@ const ChatArea = () => {
         if (!lastMsg) return true;
         return !moment(msg.timestamp?.toDate()).isSame(lastMsg.timestamp?.toDate(), 'day');
     };
+
+    useEffect(() => {
+        if (messages.length > 0 && chatContainerRef.current && settings.autoScroll) {
+            const chatContainer = chatContainerRef.current;
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+    }, [messages[messages.length - 1]]);
 
     return (
         <div className="w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative">
@@ -77,5 +87,3 @@ const ChatArea = () => {
 };
 
 export default ChatArea;
-
-
