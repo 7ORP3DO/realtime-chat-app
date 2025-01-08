@@ -1,42 +1,24 @@
-import { Fragment, useRef } from 'react';
-import { ScrollArea } from './ui/scroll-area';
-import useChat from '../hooks/useChat';
-import MessageBubble from './ui/message-bubble';
-import MessageInput from './message-input';
 import moment from 'moment';
-import { Message, TypingStatus } from '../types';
-import { useAuthContext } from '../context/auth-context';
-import ScrollProgress from './ui/scroll-progress';
-import { useSettingsContext } from '../context/settings-context';
-import { LoaderCircle, RefreshCcw } from 'lucide-react';
+import LoadMore from './load-more-btn';
+import useChat from '../hooks/useChat';
+import TypingBubble from './typing-bubble';
+import { Fragment, useRef } from 'react';
 import useTyping from '@/hooks/useTyping';
+import MessageInput from './message-input';
+import { LoaderCircle } from 'lucide-react';
+import { ScrollArea } from './ui/scroll-area';
+import MessageBubble from './ui/message-bubble';
+import ScrollProgress from './ui/scroll-progress';
+import { useAuthContext } from '../context/auth-context';
+import { useSettingsContext } from '../context/settings-context';
 import { cn, formatDateCalendar } from '@/lib/utils';
-import { AnimatePresence } from 'motion/react';
-import { motion } from 'motion/react';
+import { Message } from '@/types';
 
-const shouldShowDate = (currentMessage: Message, previousMessage?: Message): boolean => {
-    if (!previousMessage) return true;
-    return !moment(currentMessage.timestamp?.toDate()).isSame(previousMessage.timestamp?.toDate(), 'day');
-};
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
         {formatDateCalendar(date?.toDate())}
     </div>
-);
-
-const LoadMore = ({ onClick, isLoading }: { onClick?: () => void; isLoading: boolean }) => (
-    <button
-        className={cn(
-            'flex gap-1 items-center flex-col justify-center my-1 mb-5 text-muted-foreground/75 text-sm',
-            isLoading && 'opacity-50'
-        )}
-        disabled={isLoading}
-        onClick={onClick}
-    >
-        <RefreshCcw className={cn('!size-6', isLoading && 'animate-spin')} />
-        Load older messages
-    </button>
 );
 
 const MessageLoader = () => (
@@ -46,40 +28,6 @@ const MessageLoader = () => (
     </div>
 );
 
-const TypingBubble = ({ typingUsers }: { typingUsers: TypingStatus[] }) => (
-    <motion.div
-        key={'typing-bubble'}
-        exit={{ opacity: 0, scale: 0, x: '-50%' }}
-        initial={{ opacity: 0, scale: 0, x: '-50%' }}
-        animate={{ opacity: 1, scale: 1, x: '-50%' }}
-        className="absolute bg-background top-4 z-40 w-fit -translate-x-1/2 left-1/2 pointer-events-none"
-    >
-        <div
-            className={cn(
-                'border rounded-md px-2.5 py-[3px] text-xs  ',
-                'bg-gradient-to-b border-green-600 text-green-500 from-green-500/20 to-green-500/30'
-                // "bg-gradient-to-b border-purple-500 text-purple-400 from-purple-500/20 to-purple-500/30"
-            )}
-        >
-            <p className="">{typingUsers.map(u => u.name).join(', ')} is typing...</p>
-        </div>
-    </motion.div>
-);
-
-{
-    /* <div
-className={cn(
-    ' text-xs rounded-md p-[1px]',
-    // 'bg-gradient-to-b border-green-600 text-green-500 from-green-500/20 to-green-500/30'
-    'gradient'
-)}
->
-<p className="rounded-md px-2.5 py-[3px] bg-black">
-    <span className='text-gradient'>{typingUsers.map(u => u.name).join(', ')} is typing...</span>
-</p>
-</div> */
-}
-
 const ChatArea = () => {
     const { user } = useAuthContext();
     const { typingUsers } = useTyping();
@@ -87,8 +35,13 @@ const ChatArea = () => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { messages, sendMessage, isSending, isLoading, hasMore, loadMore } = useChat(user);
 
+    const shouldShowDate = (msg: Message, lastMsg: Message) => {
+        if (!lastMsg) return true;
+        return !moment(msg.timestamp?.toDate()).isSame(lastMsg.timestamp?.toDate(), 'day');
+    };
+
     return (
-        <div className={`w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative `}>
+        <div className="w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative">
             {settings.scrollIndicator && messages.length > 0 && (
                 <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
             )}
@@ -97,7 +50,7 @@ const ChatArea = () => {
 
             <ScrollArea
                 ref={chatContainerRef}
-                className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length == 0 && 'hidden')}
+                className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length === 0 && 'hidden')}
             >
                 <div className="grid gap-1 max-w-screen-md mx-auto mb-60 mt-6">
                     {hasMore && <LoadMore onClick={loadMore} isLoading={isLoading} />}
@@ -113,7 +66,8 @@ const ChatArea = () => {
                             />
                         </Fragment>
                     ))}
-                    <AnimatePresence>{typingUsers.length > 0 && <TypingBubble typingUsers={typingUsers} />}</AnimatePresence>
+
+                    <TypingBubble typingUsers={typingUsers} />
                 </div>
             </ScrollArea>
 
@@ -123,3 +77,5 @@ const ChatArea = () => {
 };
 
 export default ChatArea;
+
+

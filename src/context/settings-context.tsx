@@ -1,12 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { Settings } from '../types';
 import useSettings from '../hooks/useSettings';
 
-interface SettingsContextType {
-    settings: Settings;
-    updateSetting: <K extends keyof Settings>(key: K, value: Settings[K]) => void;
-    resetSettings: () => void;
-}
+type SettingsContextType = ReturnType<typeof useSettings>;
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
