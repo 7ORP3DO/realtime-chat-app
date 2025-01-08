@@ -17,6 +17,8 @@ import {
 import { Copy } from 'lucide-react';
 
 import emojiRegex from 'emoji-regex';
+import { Filter } from 'bad-words';
+import { useSettingsContext } from '@/context/settings-context';
 
 interface UserMessageProp extends Message {
     showName: boolean;
@@ -84,8 +86,10 @@ const UserContextMenu = ({ children, ...props }: UserContextMenuProps) => {
 
 const MessageBubble = (props: UserMessageProp) => {
     const { id, timestamp, content, userName, showName, isOwnMessage, userCountry } = props;
+    const { settings } = useSettingsContext();
 
     const emojiOnly = isOnlyEmoji(content);
+    const filter = new Filter();
 
     return (
         <UserContextMenu key={id} {...props}>
@@ -122,10 +126,10 @@ const MessageBubble = (props: UserMessageProp) => {
                     ) : (
                         <p
                             className={cn(
-                                'text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4'
+                                'text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4 overflow-hidden text-ellipsis'
                             )}
                         >
-                            <Linkify options={linkOptions}>{content}</Linkify>
+                            <Linkify options={linkOptions}>{settings.profanityFilter ? filter.clean(content) : content}</Linkify>
                         </p>
                     )}
 

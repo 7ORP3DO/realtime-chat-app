@@ -1,12 +1,13 @@
 {
   "rules": {
-    ".read": "true",
-
     "userStatus": {
       ".indexOn": ["isOnline", "updatedAt"],
+      ".read": "(query.orderByChild == 'updatedAt' && query.limitToLast <= 1000) ||
+                (query.orderByChild == 'isOnline' && query.equalTo == true)",
       "$userId": {
         ".read": "true",
-        ".write": "newData.hasChildren(['name', 'isOnline', 'updatedAt']) &&
+        ".write": "true",
+        ".validate": "newData.hasChildren(['name', 'isOnline', 'updatedAt']) &&
                    newData.child('name').isString() && 
                    newData.child('name').val().length >= 2 && 
                    newData.child('name').val().length <= 50 &&
@@ -14,12 +15,12 @@
                    newData.child('updatedAt').val() === now"
       }
     },
-
     "typingStatus": {
+      ".read": "true",
       ".indexOn": ["isTyping"],
       "$userId": {
-        ".read": "true",
-        ".write": "newData.hasChildren(['name', 'isTyping', 'updatedAt']) &&
+        ".write": "true",
+        ".validate": "newData.hasChildren(['name', 'isTyping', 'updatedAt']) &&
                    newData.child('name').isString() && 
                    newData.child('name').val().length >= 2 && 
                    newData.child('name').val().length <= 50 &&
