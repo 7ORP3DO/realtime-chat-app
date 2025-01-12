@@ -14,6 +14,7 @@ import { useAuthContext } from '@/context/auth-context';
 import { useSettingsContext } from '@/context/settings-context';
 
 import type { Message } from '@/types';
+import { useScrolling } from 'react-use';
 
 const DateDivider = ({ date }: { date: Message['timestamp'] }) => (
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
@@ -33,6 +34,7 @@ const ChatArea = () => {
     const { typingUsers } = useTyping();
     const { settings } = useSettingsContext();
     const chatContainerRef = useRef<HTMLDivElement>(null);
+    const isScrolling = useScrolling(chatContainerRef);
     const { messages, sendMessage, isSending, isLoading, hasMore, loadMore } = useChat(user);
 
     const shouldShowDate = (msg: Message, lastMsg: Message) => {
@@ -41,7 +43,7 @@ const ChatArea = () => {
     };
 
     useEffect(() => {
-        if (messages.length > 0 && chatContainerRef.current && settings.autoScroll) {
+        if (messages.length > 0 && chatContainerRef.current && settings.autoScroll && !isScrolling) {
             const chatContainer = chatContainerRef.current;
             chatContainer.scrollTo({
                 top: chatContainer.scrollHeight,

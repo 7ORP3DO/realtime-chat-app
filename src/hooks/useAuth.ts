@@ -30,10 +30,12 @@ const useAuth = () => {
 
     useEffect(() => {
         (async () => {
-            const savedUserId = Cookies.get('userId');
-            const savedName = Cookies.get('userName');
+            if (navigator.cookieEnabled) {
+                const savedUserId = Cookies.get('userId');
+                const savedName = Cookies.get('userName');
 
-            if (savedUserId && savedName) await checkExistingUser(savedName);
+                if (savedUserId && savedName) await checkExistingUser(savedName);
+            }
             setIsLoading(false);
         })();
     }, []);
@@ -101,8 +103,11 @@ const useAuth = () => {
         try {
             const existingUser = await checkExistingUser(name);
             if (existingUser) {
-                Cookies.set('userId', existingUser.id, { expires: COOKIE_EXPIRY_DAYS });
-                Cookies.set('userName', name, { expires: COOKIE_EXPIRY_DAYS });
+                if (navigator.cookieEnabled) {
+                    Cookies.set('userId', existingUser.id, { expires: COOKIE_EXPIRY_DAYS });
+                    Cookies.set('userName', name, { expires: COOKIE_EXPIRY_DAYS });
+                }
+
                 return existingUser;
             }
 
@@ -121,8 +126,11 @@ const useAuth = () => {
             await setDoc(doc(db, 'users', userId), newUser);
             updatePresence(userId, name);
 
-            Cookies.set('userId', userId, { expires: COOKIE_EXPIRY_DAYS });
-            Cookies.set('userName', name, { expires: COOKIE_EXPIRY_DAYS });
+            if (navigator.cookieEnabled) {
+                Cookies.set('userId', userId, { expires: COOKIE_EXPIRY_DAYS });
+                Cookies.set('userName', name, { expires: COOKIE_EXPIRY_DAYS });
+            }
+
             setUser(newUser);
 
             return newUser;
@@ -136,8 +144,10 @@ const useAuth = () => {
     };
 
     const logout = () => {
-        Cookies.remove('userId');
-        Cookies.remove('userName');
+        if (navigator.cookieEnabled) {
+            Cookies.remove('userId');
+            Cookies.remove('userName');
+        }
         setUser(null);
     };
 

@@ -22,7 +22,7 @@ const TypingBubble = ({ typingUsers }: { typingUsers: TypingStatus[] }) => {
         </motion.div>
     );
 
-    return <AnimatePresence key={'typing'}>{typingUsers.length > 0 && <Bubble />}</AnimatePresence>;
+    return <AnimatePresence key={'typing'}>{typingUsers.length > 0 && Bubble()}</AnimatePresence>;
 };
 
 export default TypingBubble;

@@ -4,7 +4,7 @@ import { Settings } from '../types';
 const DEFAULT_SETTINGS: Settings = {
     autoScroll: true,
     soundEnabled: true,
-    scrollIndicator: false,
+    scrollIndicator: true,
     profanityFilter: true,
 };
 
@@ -15,9 +15,7 @@ const useSettings = () => {
         const loadSettings = () => {
             try {
                 const savedSettings = localStorage.getItem('appSettings');
-                if (savedSettings) {
-                    setSettings(JSON.parse(savedSettings));
-                }
+                if (savedSettings) setSettings(JSON.parse(savedSettings));
             } catch (error) {
                 console.error('Error loading settings:', error);
                 setSettings(DEFAULT_SETTINGS);

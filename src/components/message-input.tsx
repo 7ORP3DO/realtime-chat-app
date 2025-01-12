@@ -14,31 +14,46 @@ type Props = {
 const MessageInput = ({ onSubmit, isSending }: Props) => {
     const { user } = useAuthContext();
     const [message, setMessage] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
 
-    if (!user) return <></>;
+    if (!user) return null;
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setMessage(msg => msg.trim());
+        const trimmedMessage = message.trim();
 
-        if (isSending) return;
-        if (!message) return;
+        if (isSending || !trimmedMessage) return;
 
-        onSubmit(message);
+        onSubmit(trimmedMessage);
         updateTypingStatus(false, user);
+        setMessage('');
     };
 
-    useEffect(() => {
-        if (!isSending && message) setMessage('');
-    }, [isSending]);
+    useDebounce(
+        () => {
+            if (isTyping) {
+                updateTypingStatus(false, user);
+                setIsTyping(false);
+            }
+        },
+        1200,
+        [message]
+    );
 
-    const [] = useDebounce(() => updateTypingStatus(false, user), 900, [message]);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMessage(e.target.value);
+
+        if (!isTyping) {
+            updateTypingStatus(true, user);
+            setIsTyping(true);
+        }
+    };
 
     return (
         <div className="p-4 border-t border-border bg-card absolute w-full bottom-0 left-0">
             <div className="absolute w-full top-0 -translate-y-full z-10 h-10 left-0 bg-gradient-to-b from-transparent to-card/70 border-b"></div>
 
-            <form onSubmit={handleSubmit} className="flex gap-2  max-w-screen-md mx-auto group">
+            <form onSubmit={handleSubmit} className="flex gap-2 max-w-screen-md mx-auto group">
                 <Input
                     value={message}
                     name="message"
@@ -49,11 +64,8 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
                     maxLength={160}
                     required
                     disabled={isSending}
-                    onChange={e => {
-                        setMessage(e.target.value);
-                        updateTypingStatus(true, user);
-                    }}
-                ></Input>
+                    onChange={handleInputChange}
+                />
 
                 <Button
                     size="icon"
@@ -62,26 +74,6 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
                 >
                     {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-5" />}
                 </Button>
-
-                {/* <Textarea
-                    ref={inputRef}
-                    rows={1}
-                    name="message"
-                    placeholder="Write your message here..."
-                    className="min-h-14 md:min-h-14 bg-background"
-                    minLength={2}
-                    maxLength={160}
-                    required
-                    disabled={isSending}
-                /> */}
-
-                {/* <Button
-                    size="icon"
-                    className="shrink-0 group-invalid:opacity-50 group-invalid:cursor-not-allowed"
-                    disabled={isSending}
-                >
-                    {isSending ? <Loader2Icon className="size-4 animate-spin" /> : <Send className="size-4" />}
-                </Button> */}
             </form>
         </div>
     );
