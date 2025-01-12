@@ -54,11 +54,12 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ setShowUsers, showUsers }) => {
             <OnlineCountBadge onClick={handleToggleUsers} showUsers={showUsers} />
 
             <h1 className="text-xl font-bold absolute inset-0 grid place-items-center pointer-events-none">
-                <span className='text-gradient'>Chat World</span>
+                <span className="text-gradient">Chat World</span>
             </h1>
 
             <a
-                href="#"
+                href="https://github.com/devXprite/chat-World/"
+                target="_blank"
                 className="ml-auto border bg-gradient-to-b border-cyan-500 text-cyan-400 from-cyan-500/20 to-cyan-500/30 rounded-md px-2 py-1.5 flex gap-1 items-center text-sm"
             >
                 <GithubIcon className="size-4" />

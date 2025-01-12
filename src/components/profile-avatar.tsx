@@ -50,16 +50,22 @@ const ProfileAvatar = () => {
                         <Settings /> Settings
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        <CodeSquare className="size-2" />
-                        Source Code
+                        <a href="https://github.com/devXprite/chat-World/" target="_blank">
+                            <CodeSquare className="size-2" />
+                            Source Code
+                        </a>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Info className="size-2" />
-                        About
+                    <DropdownMenuItem asChild>
+                        <a href="https://github.com/devXprite/chat-World/" target="_blank">
+                            <Info className="size-2" />
+                            About
+                        </a>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <FileWarningIcon className="size-2" />
-                        Report Issue
+                    <DropdownMenuItem asChild>
+                        <a href="https://github.com/devXprite/Chat-World/issues/new/" target="_blank">
+                            <FileWarningIcon className="size-2" />
+                            Report Issue
+                        </a>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setLogoutOpen(true)}>
