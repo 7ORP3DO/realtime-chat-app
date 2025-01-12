@@ -4,8 +4,8 @@ import { Message, TypingStatus, User } from '../types';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { startAfter, addDoc, serverTimestamp, QueryDocumentSnapshot, onSnapshot } from 'firebase/firestore';
 
-const INITIAL_MESSAGES = 30;
-const MESSAGES_PER_PAGE = 5;
+const INITIAL_MESSAGES = 75;
+const MESSAGES_PER_PAGE = 50;
 
 const loadInitialMessages = async () => {
     const q = query(collection(db, 'messages'), orderBy('timestamp', 'desc'), limit(INITIAL_MESSAGES));
