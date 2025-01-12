@@ -6,6 +6,7 @@ import { lazy, StrictMode, Suspense } from 'react';
 import { SettingsProvider } from './context/settings-context.tsx';
 import { AnimatePresence } from 'motion/react';
 import { DefaultToastOptions, Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
 
 const AuthProvider = lazy(() => import('./context/auth-context').then(module => ({ default: module.AuthProvider })));
 
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
                 <SettingsProvider>
                     <AnimatePresence>
                         <App />
+                        <Analytics />
                         <Toaster toastOptions={toastOptions} />
                     </AnimatePresence>
                 </SettingsProvider>

@@ -35,6 +35,9 @@ dependencies:
   '@radix-ui/react-switch':
     specifier: ^1.1.2
     version: 1.1.2(@types/react-dom@18.3.5)(@types/react@18.3.18)(react-dom@18.3.1)(react@18.3.1)
+  '@vercel/analytics':
+    specifier: ^1.4.1
+    version: 1.4.1(react@18.3.1)
   aos:
     specifier: ^2.3.4
     version: 2.3.4
@@ -86,6 +89,9 @@ dependencies:
   react-dom:
     specifier: ^18.3.1
     version: 18.3.1(react@18.3.1)
+  react-ga4:
+    specifier: ^2.1.0
+    version: 2.1.0
   react-hot-toast:
     specifier: ^2.5.1
     version: 2.5.1(react-dom@18.3.1)(react@18.3.1)
@@ -2284,6 +2290,35 @@ packages:
       eslint-visitor-keys: 4.2.0
     dev: true
 
+  /@vercel/analytics@1.4.1(react@18.3.1):
+    resolution: {integrity: sha512-ekpL4ReX2TH3LnrRZTUKjHHNpNy9S1I7QmS+g/RQXoSUQ8ienzosuX7T9djZ/s8zPhBx1mpHP/Rw5875N+zQIQ==}
+    peerDependencies:
+      '@remix-run/react': ^2
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      react: ^18 || ^19 || ^19.0.0-rc
+      svelte: '>= 4'
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@remix-run/react':
+        optional: true
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
+        optional: true
+    dependencies:
+      react: 18.3.1
+    dev: false
+
   /@vitejs/plugin-react@4.3.4(vite@6.0.6):
     resolution: {integrity: sha512-SCCPBJtYLdE8PX/7ZQAs1QAZ8Jqwih+0VBLum1EGqmCCQal+MIUqLCzj3ZUy8ufbC0cAM4LRlSTm7IQJwWT4ug==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -3563,6 +3598,10 @@ packages:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
+    dev: false
+
+  /react-ga4@2.1.0:
+    resolution: {integrity: sha512-ZKS7PGNFqqMd3PJ6+C2Jtz/o1iU9ggiy8Y8nUeksgVuvNISbmrQtJiZNvC/TjDsqD0QlU5Wkgs7i+w9+OjHhhQ==}
     dev: false
 
   /react-hot-toast@2.5.1(react-dom@18.3.1)(react@18.3.1):
