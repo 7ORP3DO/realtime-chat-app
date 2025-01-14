@@ -8,7 +8,7 @@ import TypingBubble from './typing-bubble';
 import { LoaderCircle } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
 import MessageBubble from './ui/message-bubble';
-import ScrollProgress from './ui/scroll-progress';
+// import ScrollProgress from './ui/scroll-progress';
 import { cn, formatDateCalendar } from '@/lib/utils';
 import { useAuthContext } from '@/context/auth-context';
 import { useSettingsContext } from '@/context/settings-context';
@@ -54,9 +54,9 @@ const ChatArea = () => {
 
     return (
         <div className="w-full border-r h-full overflow-hidden flex bg-muted/35 md:relative">
-            {settings.scrollIndicator && messages.length > 0 && (
+            {/* {settings.scrollIndicator && messages.length > 0 && (
                 <ScrollProgress container={chatContainerRef} className="max-md:top-12 h-[1px]" />
-            )}
+            )} */}
 
             {isLoading && messages.length < 2 && <MessageLoader />}
 
@@ -64,7 +64,7 @@ const ChatArea = () => {
                 ref={chatContainerRef}
                 className={cn('w-full px-2 overflow-y-auto relative', isLoading && messages.length === 0 && 'hidden')}
             >
-                <div className="grid gap-1 max-w-screen-md mx-auto mb-60 mt-6">
+                <div className="grid gap-1 w-full max-w-screen-md mx-auto mb-80 mt-6">
                     {hasMore && <LoadMore onClick={loadMore} isLoading={isLoading} />}
 
                     {messages.map((msg, i) => (

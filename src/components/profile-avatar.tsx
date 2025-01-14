@@ -33,7 +33,7 @@ const ProfileAvatar = () => {
                         {/* <BadgeInfo className='size-5' /> */}
                     </p>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-40">
+                <DropdownMenuContent align="end" className="min-w-48">
                     <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
                     <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
                         <b>Country:</b> {countries[user?.country]?.name}{' '}
@@ -49,7 +49,7 @@ const ProfileAvatar = () => {
                     <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
                         <Settings /> Settings
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                         <a href="https://github.com/devXprite/chat-World/" target="_blank">
                             <CodeSquare className="size-2" />
                             Source Code

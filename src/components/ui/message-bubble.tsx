@@ -96,8 +96,9 @@ const MessageBubble = (props: UserMessageProp) => {
     );
 
     return (
-        <UserContextMenu key={id} {...props}>
-            <div id={id} className="select-none">
+        // <UserContextMenu key={id} {...props}>
+        <div key={id} className='overflow-hidden'>
+            <div id={id} >
                 {showName && !isOwnMessage && (
                     <h4 className="mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize w-fit">
                         {userName} <CountryFlag countryCode={userCountry} />
@@ -111,18 +112,20 @@ const MessageBubble = (props: UserMessageProp) => {
                             <em-emoji native={content} size="2.5rem" set="apple"></em-emoji>
                         </p>
                     ) : (
-                        <p className="text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4 overflow-hidden text-ellipsis">
+                        <p className="text-sm text-foreground/80 [&_a]:text-orange-500 [&_a]:underline [&_a]:decoration-dotted [&_a]:underline-offset-4 overflow-hidden text-ellipsis break-words">
                             <Linkify options={linkOptions}>{filteredContent}</Linkify>
                         </p>
                     )}
                     {!isOwnMessage && (
-                        <p className="mt-0.5 text-muted-foreground text-[10px] text-right">
+                        <p className="mt-0.5 text-muted-foreground text-[10px] text-right break-words">
                             {moment(timestamp?.toDate()).format('hh:mm A')}
                         </p>
                     )}
                 </div>
             </div>
-        </UserContextMenu>
+        </div>
+
+        // </UserContextMenu>
     );
 };
 
