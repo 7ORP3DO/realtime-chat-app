@@ -6,16 +6,16 @@ import { cn } from '../../lib/utils';
 import Linkify from 'linkify-react';
 import { Opts } from 'linkifyjs';
 import countries from '../../data/country-data';
-import {
-    ContextMenu,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuLabel,
-    ContextMenuSeparator,
-    ContextMenuShortcut,
-    ContextMenuTrigger,
-} from './context-menu';
-import { Copy } from 'lucide-react';
+// import {
+//     ContextMenu,
+//     ContextMenuContent,
+//     ContextMenuItem,
+//     ContextMenuLabel,
+//     ContextMenuSeparator,
+//     ContextMenuShortcut,
+//     ContextMenuTrigger,
+// } from './context-menu';
+// import { Copy } from 'lucide-react';
 
 import emojiRegex from 'emoji-regex';
 import { Filter } from 'bad-words';
@@ -26,9 +26,9 @@ interface UserMessageProp extends Message {
     isOwnMessage: boolean;
 }
 
-interface UserContextMenuProps extends UserMessageProp {
-    children: React.ReactNode;
-}
+// interface UserContextMenuProps extends UserMessageProp {
+//     children: React.ReactNode;
+// }
 
 const linkOptions: Opts = {
     attributes: {
@@ -50,34 +50,34 @@ const CountryFlag = ({ countryCode }: { countryCode: User['country'] }) => {
     return country ? <img className="size-5 ml-0.5 -translate-y-[1px] inline" src={country.image} alt={country.name} /> : null;
 };
 
-const UserContextMenu = ({ children, id, userName, userCountry, timestamp }: UserContextMenuProps) => (
-    <ContextMenu>
-        <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-        <ContextMenuContent className="min-w-48">
-            <ContextMenuLabel className="text-ellipsis text-xs opacity-85">Id: {id}</ContextMenuLabel>
-            <ContextMenuLabel className="text-ellipsis text-xs opacity-85">User: {userName}</ContextMenuLabel>
-            <ContextMenuLabel className="text-ellipsis text-xs opacity-85">
-                Country: {countries?.[userCountry]?.name} <CountryFlag countryCode={userCountry} />
-            </ContextMenuLabel>
-            <ContextMenuLabel className="text-ellipsis text-xs opacity-85">
-                Time: {moment(timestamp?.toDate()).format('D MMM YY, hh:mm A')}
-            </ContextMenuLabel>
-            <ContextMenuSeparator />
-            <ContextMenuItem>
-                Copy Message
-                <ContextMenuShortcut>
-                    <Copy className="size-4" />
-                </ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuItem>
-                Copy UserId
-                <ContextMenuShortcut>
-                    <Copy className="size-4" />
-                </ContextMenuShortcut>
-            </ContextMenuItem>
-        </ContextMenuContent>
-    </ContextMenu>
-);
+// const UserContextMenu = ({ children, id, userName, userCountry, timestamp }: UserContextMenuProps) => (
+//     <ContextMenu>
+//         <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+//         <ContextMenuContent className="min-w-48">
+//             <ContextMenuLabel className="text-ellipsis text-xs opacity-85">Id: {id}</ContextMenuLabel>
+//             <ContextMenuLabel className="text-ellipsis text-xs opacity-85">User: {userName}</ContextMenuLabel>
+//             <ContextMenuLabel className="text-ellipsis text-xs opacity-85">
+//                 Country: {countries?.[userCountry]?.name} <CountryFlag countryCode={userCountry} />
+//             </ContextMenuLabel>
+//             <ContextMenuLabel className="text-ellipsis text-xs opacity-85">
+//                 Time: {moment(timestamp?.toDate()).format('D MMM YY, hh:mm A')}
+//             </ContextMenuLabel>
+//             <ContextMenuSeparator />
+//             <ContextMenuItem>
+//                 Copy Message
+//                 <ContextMenuShortcut>
+//                     <Copy className="size-4" />
+//                 </ContextMenuShortcut>
+//             </ContextMenuItem>
+//             <ContextMenuItem>
+//                 Copy UserId
+//                 <ContextMenuShortcut>
+//                     <Copy className="size-4" />
+//                 </ContextMenuShortcut>
+//             </ContextMenuItem>
+//         </ContextMenuContent>
+//     </ContextMenu>
+// );
 
 const MessageBubble = (props: UserMessageProp) => {
     const { id, userName, userCountry, timestamp, content, showName, isOwnMessage } = props;

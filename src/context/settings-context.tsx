@@ -2,12 +2,10 @@ import { createContext, ReactNode, useContext } from 'react';
 import useSettings from '../hooks/useSettings';
 
 type SettingsContextType = ReturnType<typeof useSettings>;
-
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 const SettingsProvider = ({ children }: { children: ReactNode }) => {
     const settingsData = useSettings();
-
     return <SettingsContext.Provider value={settingsData}>{children}</SettingsContext.Provider>;
 };
 

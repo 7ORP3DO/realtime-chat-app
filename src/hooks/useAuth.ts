@@ -5,7 +5,7 @@ import { ref, set, onDisconnect, serverTimestamp as serverTimestampRtdb } from '
 import { User } from '../types';
 import { db, rtdb } from '../lib/firebase';
 
-const COOKIE_EXPIRY_DAYS = 7;
+const COOKIE_EXPIRY_DAYS = 30;
 
 const getUserAgent = () => encodeURIComponent(navigator.userAgent);
 

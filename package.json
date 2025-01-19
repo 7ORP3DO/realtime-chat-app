@@ -1,6 +1,7 @@
 {
-  "name": "worldchat-ts",
-  "private": true,
+  "name": "chat-world",
+  "description": "ChatWorld is a lightweight, real-time global chat application that lets you instantly connect with people around the world. No sign-up required - just enter your name and start chatting!",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
