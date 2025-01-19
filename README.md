@@ -1,14 +1,14 @@
-# ChatWorld 🌐💬
+## ChatWorld 🌐💬
 
 ChatWorld is a lightweight, real-time global chat application that lets you instantly connect with people around the world. No sign-up required - just enter your name and start chatting!
 
 <!-- ![ChatWorld Interface](/public/banner.png) -->
 
-## 🔴 Live Demo
+### 🔴 Live Demo
 
 Experience Chat World live at [https://chatworld.vercel.app](https://chatworld.vercel.app)
 
-## ✨ Features
+### ✨ Features
 
 - **Instant Access**: No sign-up or authentication required
 - **Real-time Messaging**: Powered by Firebase Realtime Database
@@ -18,7 +18,7 @@ Experience Chat World live at [https://chatworld.vercel.app](https://chatworld.v
 - **Emoji Support**: Express yourself with a wide range of emojis 🎉
 - **Responsive Design**: Works seamlessly on both desktop and mobile devices
 
-## 🛠️ Built With
+### 🛠️ Built With
 
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)

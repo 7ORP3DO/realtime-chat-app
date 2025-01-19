@@ -1,4 +1,4 @@
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Github, Loader2 } from 'lucide-react';
 import ShineBorder from '../components/ui/shine-border';
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -31,7 +31,7 @@ const Home = ({}: Props) => {
                     <CardDescription>Enter your name to join the chat</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Input name="name" placeholder="Enter your name" className="bg-muted/50" minLength={2} maxLength={30} />
+                    <Input name="name" placeholder="Enter your name" className="bg-muted/50" minLength={2} maxLength={30} required />
                 </CardContent>
                 <CardFooter>
                     <Button className="ml-auto">
@@ -59,9 +59,14 @@ const Home = ({}: Props) => {
                         data-aos="fade-up"
                         data-aos-delay="100"
                     >
-                        <AnimatedShinyText className="inline-flex items-center justify-center px-3 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400 text-xs md:text-sm">
-                            <span>✨ Introducing ChatWorld</span>
-                        </AnimatedShinyText>
+                        <a href="https://github.com/devXprite/Chat-World/" target="_blank">
+                            <AnimatedShinyText className="inline-flex items-center justify-center px-3 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400  text-sm">
+                                <span>
+                                    <Github className="size-4 mr-1 inline" />
+                                    View on GitHub
+                                </span>
+                            </AnimatedShinyText>
+                        </a>
                     </div>
 
                     <h1 className="text-3xl md:text-5xl mt-6 leading-[1.1] font-bold text-center" data-aos="fade-up" data-aos-delay="300">
