@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap'); */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
     :root {
         --background: 0 0% 100%;
@@ -37,6 +38,7 @@
         --color-4: 195 100% 63%;
         --color-5: 90 100% 63%;
     }
+
     .dark {
         --background: 0 0% 2%;
         --foreground: 0 0% 98%;
@@ -69,10 +71,12 @@
         --color-5: 90 100% 63%;
     }
 }
+
 @layer base {
     * {
         @apply border-border;
     }
+
     body {
         @apply bg-background text-foreground;
         font-family: 'Nunito', serif;
@@ -84,10 +88,12 @@
 }
 
 @layer utilities {
+
     /* span.text-gradient */
     .gradient {
         @apply bg-gradient-to-r from-blue-500 via-purple-500 to-rose-500;
     }
+
     .gradient-text,
     .text-gradient {
         @apply bg-gradient-to-r from-blue-500 via-purple-500 to-rose-500 text-transparent bg-clip-text;
@@ -98,5 +104,76 @@
         /* @apply from-fuchsia-600 to-blue-600 bg-no-repeat bg-center bg-fixed; */
         /* @apply from-orange-500 via-red-600 to-purple-600 bg-no-repeat bg-center bg-fixed; */
         /* @apply from-orange-500 via-red-600 to-purple-600 bg-no-repeat bg-center bg-fixed; */
+    }
+}
+
+
+@layer components {
+
+
+
+    .pl {
+        display: block;
+        width: 6.25em;
+        height: 6.25em;
+    }
+
+    .pl__ring,
+    .pl__ball {
+        animation: ring 2s ease-out infinite;
+    }
+
+    .pl__ball {
+        animation-name: ball;
+    }
+
+
+    /* Animation */
+    @keyframes ring {
+        from {
+            stroke-dasharray: 0 257 0 0 1 0 0 258;
+        }
+
+        25% {
+            stroke-dasharray: 0 0 0 0 257 0 258 0;
+        }
+
+        50%,
+        to {
+            stroke-dasharray: 0 0 0 0 0 515 0 0;
+        }
+    }
+
+    @keyframes ball {
+
+        from,
+        50% {
+            animation-timing-function: ease-in;
+            stroke-dashoffset: 1;
+        }
+
+        64% {
+            animation-timing-function: ease-in;
+            stroke-dashoffset: -109;
+        }
+
+        78% {
+            animation-timing-function: ease-in;
+            stroke-dashoffset: -145;
+        }
+
+        92% {
+            animation-timing-function: ease-in;
+            stroke-dashoffset: -157;
+        }
+
+        57%,
+        71%,
+        85%,
+        99%,
+        to {
+            animation-timing-function: ease-out;
+            stroke-dashoffset: -163;
+        }
     }
 }
