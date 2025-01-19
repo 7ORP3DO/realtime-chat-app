@@ -15,7 +15,7 @@ const toastOptions: DefaultToastOptions = {
     success: {},
 };
 
-// ReactGA.initialize("G-KEZHDV7Y1X");
+ReactGA.initialize("G-KEZHDV7Y1X");
 
 
 createRoot(document.getElementById('root')!).render(
