@@ -60,8 +60,7 @@ const MessageInput = ({ onSubmit, isSending }: Props) => {
                     placeholder="Write your message here..."
                     className="bg-muted/75"
                     minLength={1}
-                    max={160}
-                    maxLength={160}
+                    maxLength={250}
                     required
                     disabled={isSending}
                     onChange={handleInputChange}

@@ -4,6 +4,7 @@ import { collection, doc, getDocs, query, serverTimestamp, setDoc, where } from 
 import { ref, set, onDisconnect, serverTimestamp as serverTimestampRtdb } from 'firebase/database';
 import { User } from '../types';
 import { db, rtdb } from '../lib/firebase';
+import toast from 'react-hot-toast';
 
 const COOKIE_EXPIRY_DAYS = 30;
 
@@ -12,7 +13,11 @@ const getUserAgent = () => encodeURIComponent(navigator.userAgent);
 const fetchCountryCode = async () => {
     try {
         const response = await fetch(`https://ipinfo.io/json?token=${import.meta.env.VITE_IPINFO_TOKEN}`);
-        if (!response.ok) throw new Error('Failed to fetch country info');
+
+        if (!response.ok) {
+            toast.error('Unable to determine your location. This might be due to browser settings or permissions. Please try again');
+            throw new Error('Failed to fetch country info');
+        }
 
         const data: { country: string } = await response.json();
         return data.country as User['country'];
