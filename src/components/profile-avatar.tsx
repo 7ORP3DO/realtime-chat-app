@@ -7,11 +7,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import moment from 'moment';
-import countries from '../data/country-data';
+import { format } from 'date-fns';
 import { CodeSquare, FileWarningIcon, Info, LogOut, Settings, UserIcon } from 'lucide-react';
-import SettingsDialog from './settings-dialog';
+import countries from '../data/country-data';
 import LogoutDialog from './logout-dialog';
+import SettingsDialog from './settings-dialog';
 import { useAuthContext } from '../context/auth-context';
 
 const ProfileAvatar = () => {
@@ -42,7 +42,7 @@ const ProfileAvatar = () => {
                     </DropdownMenuLabel>
                     {user && user.createdAt && user.createdAt.toDate && (
                         <DropdownMenuLabel className="text-xs font-normal text-muted-foreground -mt-2">
-                            <b>Joined:</b> {moment(user?.createdAt?.toDate()).format('D MMM YYYY, h:mm a')}
+                            <b>Joined:</b> {format(user?.createdAt?.toDate(), 'd MMM yyyy, h:mm a')}
                         </DropdownMenuLabel>
                     )}
                     <DropdownMenuSeparator />

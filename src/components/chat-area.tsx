@@ -3,7 +3,7 @@ import { LoaderCircle } from 'lucide-react';
 import { useScrolling } from 'react-use';
 import { ScrollArea } from './ui/scroll-area';
 import MessageBubble from './ui/message-bubble';
-import moment from 'moment';
+import { isSameDay } from 'date-fns';
 import LoadMore from './load-more-btn';
 import useChat from '@/hooks/useChat';
 import useTyping from '@/hooks/useTyping';
@@ -41,9 +41,8 @@ const ChatArea = () => {
 
     const shouldShowDate = useMemo(() => {
         return (msg: Message, lastMsg: Message) => {
-            // console.log('Show Date?');
             if (!lastMsg?.timestamp) return true;
-            return !moment(msg.timestamp?.toDate()).isSame(lastMsg.timestamp?.toDate(), 'day');
+            return !isSameDay(lastMsg?.timestamp?.toDate(), msg.timestamp?.toDate());
         };
     }, []);
 

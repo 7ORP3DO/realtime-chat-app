@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Message, User } from '../../types';
 import { cn } from '../../lib/utils';
 
@@ -20,6 +19,7 @@ import countries from '../../data/country-data';
 import emojiRegex from 'emoji-regex';
 import { Filter } from 'bad-words';
 import { useSettingsContext } from '@/context/settings-context';
+import { format } from 'date-fns';
 
 interface UserMessageProp extends Message {
     showName: boolean;
@@ -97,8 +97,8 @@ const MessageBubble = (props: UserMessageProp) => {
 
     return (
         // <UserContextMenu key={id} {...props}>
-        <div key={id} className='overflow-hidden'>
-            <div id={id} >
+        <div key={id} className="overflow-hidden">
+            <div id={id}>
                 {showName && !isOwnMessage && (
                     <h4 className="mt-1.5 ml-0.5 text-muted-foreground text-xs capitalize w-fit">
                         {userName} <CountryFlag countryCode={userCountry} />
@@ -118,7 +118,7 @@ const MessageBubble = (props: UserMessageProp) => {
                     )}
                     {!isOwnMessage && (
                         <p className="mt-0.5 text-muted-foreground text-[10px] text-right break-words">
-                            {moment(timestamp?.toDate()).format('hh:mm A')}
+                            {format(timestamp?.toDate(), 'hh:mm a')}
                         </p>
                     )}
                 </div>

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { formatDistanceToNow } from 'date-fns';
 import useOnlineUsers from '../hooks/useOnlineUsers';
 import { cn } from '../lib/utils';
 import { ScrollArea } from './ui/scroll-area';
@@ -33,7 +33,7 @@ const UsersList = ({ showUsers }: Props) => {
                                 <h4 className="capitalize w-full">{user.name}</h4>
                                 <p className="text-xs mt-0.5 text-muted-foreground">
                                     <b>Last Seen: </b>
-                                    {user.isOnline ? 'Online' : moment(user.updatedAt).fromNow()}
+                                    {user.isOnline ? 'Online' : formatDistanceToNow(user.updatedAt, { addSuffix: true })}
                                 </p>
                             </div>
                             <div>
