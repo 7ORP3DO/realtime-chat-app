@@ -4,7 +4,7 @@ import { Settings } from '../types';
 const DEFAULT_SETTINGS: Settings = {
     autoScroll: true,
     soundEnabled: true,
-    scrollIndicator: true,
+    scrollIndicator: false,
     profanityFilter: true,
 };
 
