@@ -16,12 +16,11 @@ import ScrollProgress from './ui/scroll-progress';
 
 import type { Message } from '@/types';
 
-const DateDivider = memo(({ date }: { date: Message['timestamp'] }) => (
+const DateDivider = (({ date }: { date: Message['timestamp'] }) => (
     <div className="border bg-muted text-muted-foreground w-fit mx-auto text-xs py-1 px-2 rounded-md mt-5 mb-3">
         {formatDateCalendar(date?.toDate())}
     </div>
 ));
-DateDivider.displayName = 'DateDivider';
 
 const MessageLoader = memo(() => (
     <div className="w-full h-[80vh] flex flex-col gap-2 items-center justify-center text-muted-foreground/75">
@@ -41,7 +40,9 @@ const ChatArea = () => {
 
     const shouldShowDate = useMemo(() => {
         return (msg: Message, lastMsg: Message) => {
+            console.log(msg.timestamp?.toDate(), lastMsg?.timestamp?.toDate());
             if (!lastMsg?.timestamp) return true;
+            if (!msg.timestamp) return false;
             return !isSameDay(lastMsg?.timestamp?.toDate(), msg.timestamp?.toDate());
         };
     }, []);
