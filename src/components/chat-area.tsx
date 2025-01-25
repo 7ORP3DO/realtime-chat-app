@@ -38,14 +38,24 @@ const ChatArea = () => {
     const isScrolling = useScrolling(chatContainerRef);
     const { messages, sendMessage, isSending, isLoading, hasMore, loadMore } = useChat(user);
 
-    const shouldShowDate = useMemo(() => {
-        return (msg: Message, lastMsg: Message) => {
-            console.log(msg.timestamp?.toDate(), lastMsg?.timestamp?.toDate());
-            if (!lastMsg?.timestamp) return true;
-            if (!msg.timestamp) return false;
-            return !isSameDay(lastMsg?.timestamp?.toDate(), msg.timestamp?.toDate());
-        };
-    }, []);
+    // const shouldShowDate = useMemo(() => {
+    //     return (msg: Message, lastMsg: Message) => {
+    //         if (!lastMsg?.timestamp) return true;
+    //         if (!msg.timestamp) return false;
+    //         return !isSameDay(lastMsg?.timestamp?.toDate(), msg.timestamp?.toDate());
+    //     };
+    // }, []);
+    
+    // show date divider if the current message is from a different day or the previous message is from a different user
+    const shouldShowDate = (msg: Message, lastMsg: Message) => {
+        const currentTimestamp = msg.timestamp?.toDate();
+        const lastTimestamp = lastMsg?.timestamp?.toDate();
+
+        if (!currentTimestamp) return false;
+        if (!lastTimestamp && currentTimestamp) return true;
+
+        return !isSameDay(lastTimestamp, currentTimestamp);
+    };
 
     useEffect(() => {
         const shouldAutoScroll = messages.length > 0 && chatContainerRef.current && settings.autoScroll && !isScrolling;
